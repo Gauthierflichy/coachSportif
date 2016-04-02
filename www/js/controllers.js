@@ -25,4 +25,72 @@ angular.module('starter.controllers', [])
   $scope.settings = {
     enableFriends: true
   };
+})
+
+.controller('ExoCtrl', function($scope, $localstorage){
+    var exos = $localstorage.get('name');
+    console.log(exos);
+})
+
+.controller('loginCtrl', function($scope, $http, $state){
+    var user = {};
+    $scope.update = function (user) {
+
+        //console.log(user.email);
+
+        $http({
+            method: "post",
+            url: "http://localhost/coachsportif/www/php/login.php",
+            crossDomain: true,
+            data: {
+                email: user.email,
+                password: user.password
+            }
+        } ).then(function(resp) {
+            console.log(resp.data);
+
+            if (resp.data.success === "true"){
+                $state.go('tab.dash');
+            } else {
+                $scope.error = resp.data.error;
+            }
+            // For JSON responses, resp.data contains the result
+        }, function(err) {
+            console.error('ERR', err);
+            // err.status will contain the status code
+        })
+    }
+})
+
+.controller('registerCtrl', function ($scope, $http, $state){
+    var user = {};
+    $scope.register = function (user) {
+        console.log(user);
+
+        $http({
+            method: "post",
+            url: "http://localhost/coachsportif/www/php/register.php",
+            crossDomain: true,
+            data: {
+                email: user.email,
+                name: user.name,
+                password: user.password,
+                password2: user.password2
+            }
+        } ).then(function(resp) {
+            console.log(resp.data);
+
+            if (resp.data.success === "true"){
+                $state.go('tab.dash');
+            } else {
+                $scope.error = resp.data.error;
+            }
+            // For JSON responses, resp.data contains the result
+        }, function(err) {
+            console.error('ERR', err);
+            // err.status will contain the status code
+        })
+    }
 });
+
+

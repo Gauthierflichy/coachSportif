@@ -1,0 +1,16 @@
+<ion-view>
+    <ion-content class="padding">
+        <h2> Connection </h2>
+        <div class="list">
+            <label class="item item-input">
+                <input type="email" ng-model="user.email" placeholder="Email">
+            </label>
+            <label class="item item-input">
+                <input type="password" ng-model="user.password" placeholder="Mot de passe">
+            </label>
+            <input type="button" class="button button-full button-balanced" value="Commencer" ng-click="update(user)">
+            <p>Pas encore de compte ? <a href="#/register">Enregistrez-vous !</a></p>
+            <h2>{{error}}</h2>
+        </div>
+    </ion-content>
+</ion-view>

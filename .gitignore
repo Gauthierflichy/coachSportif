@@ -1,1 +1,4 @@
 .idea/*
+www/php/config/*
+node_modules/
+temp/
