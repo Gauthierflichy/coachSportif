@@ -9738,3 +9738,6 @@ a.button {
     position: fixed;
     bottom: 5px;
     right: 5px; }
+
+.new-footer {
+  position: fixed; }

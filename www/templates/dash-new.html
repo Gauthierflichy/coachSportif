@@ -5,13 +5,58 @@
         </ion-nav-back-button>
     </ion-nav-bar>
     <ion-content>
-        <div class="list list-inset">
-            <label class="item item-input">
-                <i class="icon ion-search placeholder-icon"></i>
-                <input type="text" placeholder="Search">
+        <div class="list">
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Categorie
+                </div>
+                <!--<select id = "theCategory" ng-model = "data.theCategory">
+                        <option ng-repeat="c in category" value="{{c.id}}">{{c.name}}</option>
+           n    </select>
+-->
+                <select name="catagory" id="category"
+                        ng-options="c.name for c in category.available track by c.id"
+                        ng-model="category.selectedOption" ng-change="newSearch()">
+                </select>
+            </label>
+
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Equipement
+                </div>
+                <!--<select id = "theCategory" ng-model = "data.theCategory">
+                        <option ng-repeat="c in category" value="{{c.id}}">{{c.name}}</option>
+           n    </select>
+-->
+                <select name="equipment" id="equipment"
+                        ng-options="e.name for e in equipment.available track by e.id"
+                        ng-model="equipment.selectedOption" ng-change="newSearch()">
+                </select>
+            </label>
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Exercice
+                </div>
+                <!--<select id = "theCategory" ng-model = "data.theCategory">
+                        <option ng-repeat="c in category" value="{{c.id}}">{{c.name}}</option>
+           n    </select>
+-->
+                <select name="exercise" id="exercise"
+                        ng-options="ex.name for ex in exercise.available track by ex.id"
+                        ng-model="exercise.selectedOption" ng-change="updateExo()">
+                </select>
             </label>
         </div>
-        <div class="bar bar-footer">
+        <a class="item item-thumbnail-left" href="#">
+            <img src="{{ exercise.image }}">
+            <h2>{{ exercise.selectedOption.name}}</h2>
+        </a>
+        <!--<div class="card">
+            <div class="item item-text-wrap">
+                {{ exercise.selectedOption.description }}
+            </div>
+        </div>-->
+        <div class="bar bar-footer new-footer">
             <button class="col col-40 button button-assertive" ui-sref="tab.dash">Annuler</button>
             <button class="col col-40 button button-balanced">Valider</button>
         </div>

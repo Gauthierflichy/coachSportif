@@ -17,11 +17,103 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('newCtrl', function($scope, $ionicHistory) {
-    $scope.dashGoBack = function() {
-        $ionicHistory.goBack();
+.controller('newCtrl', function($scope, $http) {
+    $scope.category = {
+        available: {},
+        selectedOption: {id: '10', name: 'Abs'}
     };
+
+    $scope.equipment = {
+        available: {},
+        selectedOption: {id: '1', name: 'Barbell'}
+    };
+
+    $scope.exercise = {
+        available: {},
+        selectedOption: {id: '362', name: 'Deadlifts'},
+        image: {}
+    };
+
+    $http({
+        method: 'GET',
+        url: "https://wger.de/api/v2/exercise.json/?language=2&category=" + $scope.category.selectedOption.id + "&equipment="+ $scope.equipment.selectedOption.id,
+        headers: {'Accept': 'application/json',
+            'Authorization': 'Token b241e3fbaaa41243c9076d174dfd072b076bbaa9'}
+    }).then(function successCallback(response) {
+        $scope.exercise.available = response.data.results;
+        $scope.exercise.selectedOption = response.data.results[0];
+    }, function errorCallback(response) {
+        console.log("No data found..");
+    });
+
+    $http({
+        method: 'GET',
+        url: 'https://wger.de/api/v2/exercisecategory.json',
+        headers: {'Accept': 'application/json',
+                  'Authorization': 'Token b241e3fbaaa41243c9076d174dfd072b076bbaa9'}
+    }).then(function successCallback(response) {
+        $scope.category.available = response.data.results;
+    }, function errorCallback(response) {
+        console.log("No data found..");
+    });
+
+    $http({
+        method: 'GET',
+        url: 'https://wger.de/api/v2/equipment/',
+        headers: {'Accept': 'application/json',
+            'Authorization': 'Token b241e3fbaaa41243c9076d174dfd072b076bbaa9'}
+    }).then(function successCallback(response) {
+        $scope.equipment.available = response.data.results;
+    }, function errorCallback(response) {
+        console.log("No data found..");
+    });
+
+    $http({
+        method: 'GET',
+        url: "https://wger.de/api/v2/exerciseimage/"+ $scope.exercise.selectedOption.id + "/",
+        headers: {'Accept': 'application/json',
+            'Authorization': 'Token b241e3fbaaa41243c9076d174dfd072b076bbaa9'}
+    }).then(function successCallback(response) {
+        console.log(response.data.image);
+        $scope.exercise.image = response.data.image;
+    }, function errorCallback(response) {
+        console.log("No data found..");
+        $scope.exercise.image = 'https://wger.de/static/images/icons/image-placeholder.svg';
+    });
+
+    $scope.newSearch = function () {
+       $http({
+           method: 'GET',
+           url: "https://wger.de/api/v2/exercise.json/?language=2&category=" + $scope.category.selectedOption.id + "&equipment="+ $scope.equipment.selectedOption.id,
+           headers: {'Accept': 'application/json',
+               'Authorization': 'Token b241e3fbaaa41243c9076d174dfd072b076bbaa9'}
+       }).then(function successCallback(response) {
+           $scope.exercise.available = response.data.results;
+           $scope.exercise.selectedOption = response.data.results[0];
+       }, function errorCallback(response) {
+           console.log("No data found..");
+       });
+    };
+
+    $scope.updateExo = function () {
+        $http({
+            method: 'GET',
+            url: "https://wger.de/api/v2/exerciseimage/"+ $scope.exercise.selectedOption.id + "/",
+            headers: {'Accept': 'application/json',
+                'Authorization': 'Token b241e3fbaaa41243c9076d174dfd072b076bbaa9'}
+        }).then(function successCallback(response) {
+            console.log(response.data.image);
+            $scope.exercise.image = response.data.image;
+        }, function errorCallback(response) {
+            console.log("No data found..");
+            $scope.exercise.image = 'https://wger.de/static/images/icons/image-placeholder.svg';
+        });
+    }
+
+
+
 })
+
 
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {
