@@ -20,4 +20,13 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
+.dashboard {
+  min-height: 100%;
+  .add-exo {
+    border-radius: 49%;
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+  }
+}
 
