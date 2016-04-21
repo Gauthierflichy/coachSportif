@@ -1,0 +1,63 @@
+
+<ion-view view-title = "Nouvel Exercice">
+    <ion-nav-bar class="bar-positive">
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+    </ion-nav-bar>
+    <ion-content>
+        <div class="list">
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Categorie
+                </div>
+                <select name="catagory" id="category"
+                        ng-options="c.name for c in category.available track by c.id"
+                        ng-model="category.selectedOption" ng-change="newSearch()">
+                </select>
+            </label>
+
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Equipement
+                </div>
+                <select name="equipment" id="equipment"
+                        ng-options="e.name for e in equipment.available track by e.id"
+                        ng-model="equipment.selectedOption" ng-change="newSearch()">
+                </select>
+            </label>
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Exercice
+                </div>
+
+                <select ng-if="" name="exercise" id="exercise"
+                        ng-options="ex.name for ex in exercise.available track by ex.id"
+                        ng-model="exercise.selectedOption" ng-change="updateExo()">
+                </select>
+            </label>
+        </div>
+        <div class="padding">
+            <div class="row">
+                <div class="col col-20"><img src="{{ exercise.image }}" alt="exoImg"></div>
+                <div class="col col-80"><h4 class="text-center">{{ exercise.selectedOption.name}}</h4></div>
+                </a>
+            </div>
+            <div class="row">
+                <div class="col col-100"><p>{{onezoneDatepicker.date | date:'dd MMMM yyyy'}}</div><a class="show-onezone-datepicker"  ng-click="showDatepicker()">Modifier</a>
+            </div>
+            <div class="row">
+                <div class="col col-100">
+                    <onezone-datepicker datepicker-object="onezoneDatepicker">
+                    </onezone-datepicker>
+                </div>
+            </div>
+            <div class="row">
+                <button class="button button-balanced button-full">Ajouter à votre calendrier</button>
+            </div>
+        </div>
+        <!--<div class="bar bar-footer new-footer">
+            <button class="col col-40 button button-assertive" ui-sref="tab.dash">Annuler</button>
+            <button class="col col-40 button button-balanced">Valider</button>
+        </div>-->
+    </ion-content>
+</ion-view>

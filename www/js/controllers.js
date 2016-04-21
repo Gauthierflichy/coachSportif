@@ -17,7 +17,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('newCtrl', function($scope, $http) {
+.controller('newCtrl', function($scope, $http, $ionicPlatform, $cordovaCalendar, ionicDatePicker, ionicTimePicker) {
     $scope.category = {
         available: {},
         selectedOption: {id: '10', name: 'Abs'}
@@ -30,69 +30,164 @@ angular.module('starter.controllers', [])
 
     $scope.exercise = {
         available: {},
-        selectedOption: {id: '362', name: 'Deadlifts'},
-        image: {}
+        selectedOption: {},
+        image: {},
+        date: {},
+        time: {}
     };
 
-    $http({
-        method: 'GET',
-        url: "https://wger.de/api/v2/exercise.json/?language=2&category=" + $scope.category.selectedOption.id + "&equipment="+ $scope.equipment.selectedOption.id,
-        headers: {'Accept': 'application/json',
-            'Authorization': 'Token b241e3fbaaa41243c9076d174dfd072b076bbaa9'}
-    }).then(function successCallback(response) {
-        $scope.exercise.available = response.data.results;
-        $scope.exercise.selectedOption = response.data.results[0];
-    }, function errorCallback(response) {
-        console.log("No data found..");
+    var currentDate = new Date();
+    var date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes());
+        ;
+    $scope.date = date;
+    $scope.time = currentDate.getHours() + currentDate.getMinutes();
+
+    var datePickerConfig = {
+        callback: function (val) {  //Mandatory
+            $scope.date = val;
+            console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+        },
+        monthsList: ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"],
+        weeksList: ["L", "M", "M", "J", "V", "S", "D"],
+        from: new Date(2010, 1, 1),
+        to: new Date(2100, 10, 30),
+        inputDate: currentDate,
+        mondayFirst: false,
+        setLabel: 'Valider',
+        closeLabel: 'Fermer',
+        todayLabel: 'Ajourd\'hui',
+        showTodayButton: false,
+        dateFormat: 'dd MMMM yyyy',
+        closeOnSelect: true,
+        templateType: 'popup'
+    };
+
+    var timePickerConfig = {
+        callback: function (val) {      //Mandatory
+            if (typeof (val) === 'undefined') {
+                console.log('Time not selected');
+            } else {
+                var selectedTime = new Date(val * 1000);
+                console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
+            }
+            $scope.time = selectedTime.getUTCHours() + selectedTime.getUTCMinutes();
+        },
+        inputTime: 50400,
+        format: 24,
+        step: 15,
+        setLabel: 'Valider'
+    };
+
+    
+    $scope.openTimePicker = function(){
+        ionicTimePicker.openTimePicker(timePickerConfig);
+    };
+    
+    $scope.openDatePicker = function(){
+        ionicDatePicker.openDatePicker(datePickerConfig);
+    };
+
+
+
+    ionic.Platform.ready(function(){
+        $http({
+            method: 'GET',
+            url: "https://wger.de/api/v2/exercise.json/?language=2&category=" + $scope.category.selectedOption.id + "&equipment="+ $scope.equipment.selectedOption.id,
+            headers: {'Accept': 'application/json',
+                'Authorization': 'Token ad78fdd67e0802f6eae06c02b406fbb1b51b558a'}
+        }).then(function successCallback(response) {
+            $scope.exercise.available = response.data.results;
+            $scope.exercise.selectedOption = response.data.results[0];
+            $scope.is_available = true;
+        }, function errorCallback(response) {
+            console.log("No data found..");
+        });
+
+        $http({
+            method: 'GET',
+            url: 'https://wger.de/api/v2/exercisecategory.json',
+            headers: {'Accept': 'application/json',
+                'Authorization': 'Token ad78fdd67e0802f6eae06c02b406fbb1b51b558a'}
+        }).then(function successCallback(response) {
+            $scope.category.available = response.data.results;
+        }, function errorCallback(response) {
+            console.log("No data found..");
+        });
+
+        $http({
+            method: 'GET',
+            url: 'https://wger.de/api/v2/equipment/',
+            headers: {'Accept': 'application/json',
+                'Authorization': 'Token ad78fdd67e0802f6eae06c02b406fbb1b51b558a'}
+        }).then(function successCallback(response) {
+            $scope.equipment.available = response.data.results;
+        }, function errorCallback(response) {
+            console.log("No data found..");
+        });
+
+        $http({
+            method: 'GET',
+            url: "https://wger.de/api/v2/exerciseimage/"+ $scope.exercise.selectedOption.id + "/",
+            headers: {'Accept': 'application/json',
+                'Authorization': 'Token ad78fdd67e0802f6eae06c02b406fbb1b51b558a'}
+        }).then(function successCallback(response) {
+            console.log(response.data.image);
+            $scope.exercise.image = response.data.image;
+        }, function errorCallback(response) {
+            console.log("No data found..");
+            $scope.exercise.image = 'https://wger.de/static/images/icons/image-placeholder.svg';
+        });
+
+        /* Enregistrement dans le calendrier */
+
+        $scope.addEvent = function () {
+            console.log($scope.time);
+
+            var incrementHour = function(date, amount) {
+                var tmpDate = new Date(date);
+                tmpDate.setHours(tmpDate.getHours() + amount);
+                return tmpDate;
+            };
+
+            /*$cordovaCalendar.createEventWithOptions({
+                title: $scope.exercise.selectedOption.name,
+                location: 'Maison',
+                notes: 'Sport is life !',
+                startDate: date,
+                endDate: incrementHour(date, 1)
+            }).then(function (result) {
+                console.log(result);
+            }, function (err) {
+                console.log(err);
+            });*/
+        };
+
+        /* Fin En */
+
     });
 
-    $http({
-        method: 'GET',
-        url: 'https://wger.de/api/v2/exercisecategory.json',
-        headers: {'Accept': 'application/json',
-                  'Authorization': 'Token b241e3fbaaa41243c9076d174dfd072b076bbaa9'}
-    }).then(function successCallback(response) {
-        $scope.category.available = response.data.results;
-    }, function errorCallback(response) {
-        console.log("No data found..");
-    });
-
-    $http({
-        method: 'GET',
-        url: 'https://wger.de/api/v2/equipment/',
-        headers: {'Accept': 'application/json',
-            'Authorization': 'Token b241e3fbaaa41243c9076d174dfd072b076bbaa9'}
-    }).then(function successCallback(response) {
-        $scope.equipment.available = response.data.results;
-    }, function errorCallback(response) {
-        console.log("No data found..");
-    });
-
-    $http({
-        method: 'GET',
-        url: "https://wger.de/api/v2/exerciseimage/"+ $scope.exercise.selectedOption.id + "/",
-        headers: {'Accept': 'application/json',
-            'Authorization': 'Token b241e3fbaaa41243c9076d174dfd072b076bbaa9'}
-    }).then(function successCallback(response) {
-        console.log(response.data.image);
-        $scope.exercise.image = response.data.image;
-    }, function errorCallback(response) {
-        console.log("No data found..");
-        $scope.exercise.image = 'https://wger.de/static/images/icons/image-placeholder.svg';
-    });
 
     $scope.newSearch = function () {
        $http({
            method: 'GET',
            url: "https://wger.de/api/v2/exercise.json/?language=2&category=" + $scope.category.selectedOption.id + "&equipment="+ $scope.equipment.selectedOption.id,
            headers: {'Accept': 'application/json',
-               'Authorization': 'Token b241e3fbaaa41243c9076d174dfd072b076bbaa9'}
+               'Authorization': 'Token ad78fdd67e0802f6eae06c02b406fbb1b51b558a'}
        }).then(function successCallback(response) {
-           $scope.exercise.available = response.data.results;
-           $scope.exercise.selectedOption = response.data.results[0];
+               if(response.data.count !== 0){
+                   $scope.is_available = true;
+               }else{
+                   $scope.is_available = false;
+               }
+               $scope.exercise.available = response.data.results;
+               $scope.exercise.selectedOption = response.data.results[0];
+
+               console.log($scope.is_available);
+
        }, function errorCallback(response) {
            console.log("No data found..");
        });
+
     };
 
     $scope.updateExo = function () {
@@ -100,7 +195,7 @@ angular.module('starter.controllers', [])
             method: 'GET',
             url: "https://wger.de/api/v2/exerciseimage/"+ $scope.exercise.selectedOption.id + "/",
             headers: {'Accept': 'application/json',
-                'Authorization': 'Token b241e3fbaaa41243c9076d174dfd072b076bbaa9'}
+                'Authorization': 'Token ad78fdd67e0802f6eae06c02b406fbb1b51b558a'}
         }).then(function successCallback(response) {
             console.log(response.data.image);
             $scope.exercise.image = response.data.image;
@@ -140,26 +235,6 @@ angular.module('starter.controllers', [])
       $state.go('dash-new');
     };
 
-/*
-    function setExos() {
-        var usersRef = ref.child("users");
-        usersRef.set({
-            alanisawesome: {
-                date_of_birth: "June 23, 1912",
-                full_name: "Alan Turing"
-            },
-            gracehop: {
-                date_of_birth: "December 9, 1906",
-                full_name: "Grace Hopper"
-            }
-        });
-    }
-    
-    //$scope.exercices = getExos();
-    $scope.setExo = function (newExo) {
-      /!**!/
-    };
-*/
     $scope.name = getName(authData);
 })
 

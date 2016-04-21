@@ -5,9 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase', 'onezone-datepicker'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $state) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -21,6 +21,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       StatusBar.styleDefault();
     }
   });
+
+  function authDataCallback(authData) {
+    if (authData) {
+      console.log("User " + authData.password.email.replace(/@.*/, '') + " is logged in with " + authData.provider);
+      $state.go('tab.dash');
+    } else {
+      console.log("User is logged out");
+      ref.unauth();
+      $state.go('login');
+    }
+  }
+  // Register the callback to be fired every time auth state changes
+    var ref = new Firebase("https://crackling-inferno-6605.firebaseio.com");
+    ref.onAuth(authDataCallback);
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -49,6 +63,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   })
 
   // Each tab has its own nav history stack:
+  .state('tab.account', {
+    url: '/account',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/tab-account.html',
+        controller: 'accountCtrl'
+      }
+    }
+  })
 
   .state('tab.dash', {
     url: '/dash',
@@ -59,37 +82,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     }
   })
-
-  .state('tab.chats', {
-      url: '/chats',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/dash-new.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
-
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
-      }
-    }
+  .state('dash-new', {
+    url: '/new',
+    templateUrl: 'templates/dash-new.html',
+    controller: 'newCtrl'
   });
-
+  
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/dash');
-
 });

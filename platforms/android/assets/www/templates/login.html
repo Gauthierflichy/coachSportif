@@ -10,6 +10,10 @@
             </label>
             <input type="button" class="button button-full button-balanced" value="Commencer" ng-click="login(user)">
             <p>Pas encore de compte ? <a href="#/register">Enregistrez-vous !</a></p>
+            <a ng-click="loginfb()" class="btn btn-block btn-social btn-twitter">
+                <span class="fa fa-twitter"></span>
+                Sign in with Twitter
+            </a>
             <h2>{{error}}</h2>
         </div>
     </ion-content>
