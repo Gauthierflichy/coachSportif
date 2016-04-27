@@ -1,7 +1,5 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {})
-
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -17,7 +15,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('newCtrl', function($scope, $http, $cordovaCalendar) {
+.controller('newCtrl', function($scope, $http, $ionicPlatform, $cordovaCalendar, ionicDatePicker, ionicTimePicker) {
     $scope.category = {
         available: {},
         selectedOption: {id: '10', name: 'Abs'}
@@ -30,91 +28,144 @@ angular.module('starter.controllers', [])
 
     $scope.exercise = {
         available: {},
-        selectedOption: {id: '362', name: 'Deadlifts'},
+        selectedOption: {},
         image: {},
-        date: $scope.date
+        date: {}
     };
 
     var currentDate = new Date();
     var date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+
     $scope.date = date;
+    //$scope.time = date.getHours()+ "h" + date.getMinutes();
 
-    months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
-    daysOfTheWeek = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
-
-    $scope.onezoneDatepicker = {
-        date: date, // MANDATORY
+    var datePickerConfig = {
+        callback: function (val) {  //Mandatory
+            $scope.date = val;
+            console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+        },
+        monthsList: ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"],
+        weeksList: ["L", "M", "M", "J", "V", "S", "D"],
+        from: new Date(2010, 1, 1),
+        to: new Date(2100, 10, 30),
+        inputDate: currentDate,
         mondayFirst: false,
-        months: months,
-        daysOfTheWeek: daysOfTheWeek,
-        startDate: new Date(1989, 1, 26),
-        endDate: new Date(2100, 1, 26),
-        disablePastDays: false,
-        disableSwipe: false,
-        disableWeekend: false,
-        disableDates: false,
-        disableDaysOfWeek: false,
-        showDatepicker: false,
-        showTodayButton: true,
-        calendarMode: false,
-        hideCancelButton: false,
-        hideSetButton: false,
-        highlights: true,
-        callback: function(value){
-            // your code
-        }
+        setLabel: 'Valider',
+        closeLabel: 'Fermer',
+        todayLabel: 'Ajourd\'hui',
+        showTodayButton: false,
+        dateFormat: 'dd MMMM yyyy',
+        closeOnSelect: true,
+        templateType: 'popup'
     };
 
-    $scope.showDatepicker = function () {
-      $scope.onezoneDatepicker.showDatepicker = true;
+    var timePickerConfig = {
+        callback: function (val) {      //Mandatory
+            if (typeof (val) === 'undefined') {
+                console.log('Time not selected');
+            } else {
+                var selectedTime = new Date(val * 1000);
+                //$scope.time = selectedTime;
+                console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
+            }
+            console.log(selectedTime);
+            $scope.time = selectedTime;
+            console.log($scope.time);
+        },
+        inputTime: 54000,
+        format: 24,
+        step: 15,
+        setLabel: 'Valider'
     };
 
-    $http({
-        method: 'GET',
-        url: "https://wger.de/api/v2/exercise.json/?language=2&category=" + $scope.category.selectedOption.id + "&equipment="+ $scope.equipment.selectedOption.id,
-        headers: {'Accept': 'application/json',
-            'Authorization': 'Token ad78fdd67e0802f6eae06c02b406fbb1b51b558a'}
-    }).then(function successCallback(response) {
-        $scope.exercise.available = response.data.results;
-        $scope.exercise.selectedOption = response.data.results[0];
-    }, function errorCallback(response) {
-        console.log("No data found..");
+    
+    $scope.openTimePicker = function(){
+        ionicTimePicker.openTimePicker(timePickerConfig);
+    };
+    
+    $scope.openDatePicker = function(){
+        ionicDatePicker.openDatePicker(datePickerConfig);
+    };
+
+
+
+    ionic.Platform.ready(function(){
+        $http({
+            method: 'GET',
+            url: "https://wger.de/api/v2/exercise.json/?language=2&category=" + $scope.category.selectedOption.id + "&equipment="+ $scope.equipment.selectedOption.id,
+            headers: {'Accept': 'application/json',
+                'Authorization': 'Token ad78fdd67e0802f6eae06c02b406fbb1b51b558a'}
+        }).then(function successCallback(response) {
+            $scope.exercise.available = response.data.results;
+            $scope.exercise.selectedOption = response.data.results[0];
+            $scope.is_available = true;
+        }, function errorCallback(response) {
+            console.log("No data found..");
+        });
+
+        $http({
+            method: 'GET',
+            url: 'https://wger.de/api/v2/exercisecategory.json',
+            headers: {'Accept': 'application/json',
+                'Authorization': 'Token ad78fdd67e0802f6eae06c02b406fbb1b51b558a'}
+        }).then(function successCallback(response) {
+            $scope.category.available = response.data.results;
+        }, function errorCallback(response) {
+            console.log("No data found..");
+        });
+
+        $http({
+            method: 'GET',
+            url: 'https://wger.de/api/v2/equipment/',
+            headers: {'Accept': 'application/json',
+                'Authorization': 'Token ad78fdd67e0802f6eae06c02b406fbb1b51b558a'}
+        }).then(function successCallback(response) {
+            $scope.equipment.available = response.data.results;
+        }, function errorCallback(response) {
+            console.log("No data found..");
+        });
+
+        $http({
+            method: 'GET',
+            url: "https://wger.de/api/v2/exerciseimage/"+ $scope.exercise.selectedOption.id + "/",
+            headers: {'Accept': 'application/json',
+                'Authorization': 'Token ad78fdd67e0802f6eae06c02b406fbb1b51b558a'}
+        }).then(function successCallback(response) {
+            console.log(response.data.image);
+            $scope.exercise.image = response.data.image;
+        }, function errorCallback(response) {
+            console.log("No data found..");
+            $scope.exercise.image = 'https://wger.de/static/images/icons/image-placeholder.svg';
+        });
+
+        /* Enregistrement dans le calendrier */
+
+        $scope.addEvent = function () {
+            var incrementHour = function(date, amount) {
+                var tmpDate = new Date(date);
+                tmpDate.setHours(tmpDate.getHours() + amount);
+                return tmpDate;
+            };
+
+            //console.log($scope.exercise.selectedOption.name, $scope.date);
+
+            $cordovaCalendar.createEventInteractively({
+                title: 'Test',
+                location: 'Maison',
+                notes: 'Sport is life !',
+                startDate: new Date(2016, 4, 26, 18, 30, 0, 0, 0),
+                endDate: new Date(2016, 4, 26, 197, 0, 0, 0, 0)
+            }).then(function (result) {
+                console.log(result);
+            }, function (err) {
+                console.log(err);
+            });
+        };
+
+        /* Fin En */
+
     });
 
-    $http({
-        method: 'GET',
-        url: 'https://wger.de/api/v2/exercisecategory.json',
-        headers: {'Accept': 'application/json',
-                  'Authorization': 'Token ad78fdd67e0802f6eae06c02b406fbb1b51b558a'}
-    }).then(function successCallback(response) {
-        $scope.category.available = response.data.results;
-    }, function errorCallback(response) {
-        console.log("No data found..");
-    });
-
-    $http({
-        method: 'GET',
-        url: 'https://wger.de/api/v2/equipment/',
-        headers: {'Accept': 'application/json',
-            'Authorization': 'Token ad78fdd67e0802f6eae06c02b406fbb1b51b558a'}
-    }).then(function successCallback(response) {
-        $scope.equipment.available = response.data.results;
-    }, function errorCallback(response) {
-        console.log("No data found..");
-    });
-
-    $http({
-        method: 'GET',
-        url: "https://wger.de/api/v2/exerciseimage/"+ $scope.exercise.selectedOption.id + "/",
-        headers: {'Accept': 'application/json',
-            'Authorization': 'Token ad78fdd67e0802f6eae06c02b406fbb1b51b558a'}
-    }).then(function successCallback(response) {
-        console.log(response.data.image);
-        $scope.exercise.image = response.data.image;
-    }, function errorCallback(response) {
-        console.log("No data found..");
-        $scope.exercise.image = 'https://wger.de/static/images/icons/image-placeholder.svg';
-    });
 
     $scope.newSearch = function () {
        $http({
@@ -123,27 +174,20 @@ angular.module('starter.controllers', [])
            headers: {'Accept': 'application/json',
                'Authorization': 'Token ad78fdd67e0802f6eae06c02b406fbb1b51b558a'}
        }).then(function successCallback(response) {
-           if (response.data.count = 0){
+               if(response.data.count !== 0){
+                   $scope.is_available = true;
+               }else{
+                   $scope.is_available = false;
+               }
                $scope.exercise.available = response.data.results;
                $scope.exercise.selectedOption = response.data.results[0];
-           } else {
-               console.log('Pas d\'exos');
-           }
+
+               console.log($scope.is_available);
+
        }, function errorCallback(response) {
            console.log("No data found..");
        });
 
-
-        /* Enregistrement dans le calendrier */
-
-        $cordovaCalendar.listCalendars().then(function (result) {
-            console.log(result);
-        }, function (err) {
-            // error
-        });
-
-
-        /* Fin En*/
     };
 
     $scope.updateExo = function () {
@@ -166,7 +210,7 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('AccountCtrl', function($scope) {
+.controller('AccountCtrl', function($scope, Events) {
   $scope.settings = {
     enableFriends: true
   };
@@ -190,8 +234,7 @@ angular.module('starter.controllers', [])
     $scope.new = function () {
       $state.go('dash-new');
     };
-
-    $scope.name = getName(authData);
+    
 })
 
 

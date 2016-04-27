@@ -4,7 +4,7 @@
         <ion-nav-back-button>
         </ion-nav-back-button>
     </ion-nav-bar>
-    <ion-content>
+    <ion-content overflow-scroll="false" >
         <div class="list">
             <label class="item item-input item-select">
                 <div class="input-label">
@@ -37,19 +37,43 @@
             </label>
         </div>
         <div ng-if="is_available == true" class="padding">
-            <div class="row">
-                <div class="col col-20"><img src="{{ exercise.image }}" alt="exoImg"></div>
-                <div class="col col-80"><h4 class="text-center">{{ exercise.selectedOption.name}}</h4></div>
-                </a>
+
+            <a class="item item-thumbnail-left" href="#">
+                <img  class="image-full" src="{{ exercise.image }}" alt="exoImg">
+                <h2>{{ exercise.selectedOption.name}}</h2>
+            </a>
+
+            <label class="item item-input">
+                <span class="input-label">Date</span>
+                <input type="date" ng-model="date" value="{{ date }}">
+            </label>
+
+                <div class="item range range-positive">
+                    <span class="input-label">Series</span>
+                    <input type="range" name="repetitions" ng-model="series" min="1" max="20" value="5">
+                    <span>{{ series }}</span>
+                </div>
+
+                <div class="item range range-positive">
+                    <span class="input-label">Répétitions</span>
+                    <input type="range" name="repetitions" ng-model="repetitions" min="5" max="50" value="15">
+                    <span>{{ repetitions }}</span>
+                </div>
+
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Fréquence
+                </div>
+                <select>
+                    <option>Tous les jours</option>
+                    <option selected>Une seul fois</option>
+                    <option>1 fois pas semaine</option>
+                </select>
+            </label>
             </div>
+
             <div class="row">
-                <div class="col col-100"><p>{{ date | date:'dd MMMM yyyy'}}</div><a ng-click="openDatePicker()">Modifier</a>
-            </div>
-            <div class="row">
-                <div class="col col-100"><p>{{ date | date:'HH:mm'}}</div><a ng-click="openTimePicker()">Modifier</a>
-            </div>
-            <div class="row">
-                <button class="button button-balanced button-full" ng-click="addEvent()">Ajouter à votre calendrier</button>
+                <button class="button button-balanced button-full" ng-click="addEvent()">Enregister</button>
             </div>
         </div>
         <h4 ng-show="is_available == false" class="text-center">Aucun exercice correspondant</h4>

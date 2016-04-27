@@ -25,36 +25,49 @@
                         ng-model="equipment.selectedOption" ng-change="newSearch()">
                 </select>
             </label>
-            <label class="item item-input item-select">
-                <div class="input-label">
-                    Exercice
-                </div>
+            <label ng-if="is_available == true" class="item item-input item-select">
+                    <div class="input-label">
+                        Exercice
+                    </div>
 
-                <select ng-if="" name="exercise" id="exercise"
-                        ng-options="ex.name for ex in exercise.available track by ex.id"
-                        ng-model="exercise.selectedOption" ng-change="updateExo()">
-                </select>
+                    <select name="exercise" id="exercise"
+                            ng-options="ex.name for ex in exercise.available track by ex.id"
+                            ng-model="exercise.selectedOption" ng-change="updateExo()">
+                    </select>
             </label>
         </div>
-        <div class="padding">
+        <div ng-if="is_available == true" class="padding">
+
+            <a class="item item-thumbnail-left" href="#">
+                <img  class="image-full" src="{{ exercise.image }}" alt="exoImg">
+                <h2>{{ exercise.selectedOption.name}}</h2>
+            </a>
+
+
             <div class="row">
-                <div class="col col-20"><img src="{{ exercise.image }}" alt="exoImg"></div>
-                <div class="col col-80"><h4 class="text-center">{{ exercise.selectedOption.name}}</h4></div>
-                </a>
+                <div class="col col-100"><p>{{ date | date: "dd MMMM yyyy" }}</div><a ng-click="openDatePicker()">Modifier</a>
             </div>
-            <div class="row">
-                <div class="col col-100"><p>{{onezoneDatepicker.date | date:'dd MMMM yyyy'}}</div><a class="show-onezone-datepicker"  ng-click="showDatepicker()">Modifier</a>
-            </div>
-            <div class="row">
-                <div class="col col-100">
-                    <onezone-datepicker datepicker-object="onezoneDatepicker">
-                    </onezone-datepicker>
+
+            <div class="card" ng-repeat="event in events">
+                <div class="item item-divider">
+                    {{event.title}}
+                </div>
+                <div class="item item-text-wrap">
+                    {{ event.description }}
+                    <p/>
+                    <strong>When: {{ event.date | date:'short' }}</strong>
+
+                    <p ng-if="event.status">This event is added to your calendar already!</p>
+                    <button ng-if="!event.status" ng-click="addEvent(event,$index)" class="button button-block button-balanced">Add to Calendar</button>
+
                 </div>
             </div>
+
             <div class="row">
-                <button class="button button-balanced button-full">Ajouter à votre calendrier</button>
+                <button class="button button-balanced button-full" ng-click="addEvent()">Ajouter à votre calendrier</button>
             </div>
         </div>
+        <h4 ng-show="is_available == false" class="text-center">Aucun exercice correspondant</h4>
         <!--<div class="bar bar-footer new-footer">
             <button class="col col-40 button button-assertive" ui-sref="tab.dash">Annuler</button>
             <button class="col col-40 button button-balanced">Valider</button>

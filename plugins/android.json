@@ -9,6 +9,9 @@
     "installed_plugins": {
         "cordova-plugin-calendar": {
             "PACKAGE_NAME": "com.ionicframework.coachsportif895582"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.ionicframework.coachsportif895582"
         }
     },
     "dependent_plugins": {}

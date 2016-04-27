@@ -3489,7 +3489,7 @@ ion-infinite-scroll {
 
 .overflow-scroll {
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: -ms-autohiding-scrollbar;
   top: 0;
@@ -9730,17 +9730,3 @@ a.button {
   opacity: 0;
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
-
-.dashboard {
-  min-height: 100%; }
-  .dashboard .add-exo {
-    border-radius: 49%;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    right: 5px;
-    width: 80px;
-    height: 80px; }
-
-.new-footer {
-  position: fixed; }

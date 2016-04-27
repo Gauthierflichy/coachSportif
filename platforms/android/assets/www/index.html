@@ -8,6 +8,7 @@
 
     <!-- compiled css output -->
     <link href="css/ionic.app.css" rel="stylesheet">
+    <link href="lib/ion-floating-menu/dist/ion-floating-menu.css" rel="stylesheet" type="text/css">
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -17,15 +18,18 @@
     <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>
-    <script src="lib/onezone-datepicker/dist/onezone-datepicker.min.js"></script>
+    <script src="lib/ionic-timepicker/dist/ionic-timepicker.bundle.min.js"></script>
+    <script src="lib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js"></script>
+    <script src="lib/ion-floating-menu/dist/ion-floating-menu.js" type="text/javascript"></script>
   </head>
-  <body ng-app="starter">
+  <body ng-app="starter" class="platform-android platform-cordova platform-webview">
     <!--
       The views will be rendered in the <ion-nav-view> directive below
       Templates are in the /templates folder (but you could also

@@ -1,7 +1,5 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {})
-
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -17,7 +15,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('newCtrl', function($scope, $http, $ionicPlatform, $cordovaCalendar, ionicDatePicker, ionicTimePicker) {
+.controller('newCtrl', function($scope, $http, $state) {
     $scope.category = {
         available: {},
         selectedOption: {id: '10', name: 'Abs'}
@@ -31,62 +29,23 @@ angular.module('starter.controllers', [])
     $scope.exercise = {
         available: {},
         selectedOption: {},
-        image: {},
-        date: {},
-        time: {}
+        image: {}
+    };
+
+    var newExercice = {
+        name: $scope.exercise.selectedOption.name,
+        date: $scope.date,
+        series: $scope.series,
+        repetitions : $scope.repetitions,
+        frequence: $scope.frequence
     };
 
     var currentDate = new Date();
-    var date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes());
-        ;
+    var date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+
     $scope.date = date;
-    $scope.time = currentDate.getHours() + currentDate.getMinutes();
-
-    var datePickerConfig = {
-        callback: function (val) {  //Mandatory
-            $scope.date = val;
-            console.log('Return value from the datepicker popup is : ' + val, new Date(val));
-        },
-        monthsList: ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"],
-        weeksList: ["L", "M", "M", "J", "V", "S", "D"],
-        from: new Date(2010, 1, 1),
-        to: new Date(2100, 10, 30),
-        inputDate: currentDate,
-        mondayFirst: false,
-        setLabel: 'Valider',
-        closeLabel: 'Fermer',
-        todayLabel: 'Ajourd\'hui',
-        showTodayButton: false,
-        dateFormat: 'dd MMMM yyyy',
-        closeOnSelect: true,
-        templateType: 'popup'
-    };
-
-    var timePickerConfig = {
-        callback: function (val) {      //Mandatory
-            if (typeof (val) === 'undefined') {
-                console.log('Time not selected');
-            } else {
-                var selectedTime = new Date(val * 1000);
-                console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
-            }
-            $scope.time = selectedTime.getUTCHours() + selectedTime.getUTCMinutes();
-        },
-        inputTime: 50400,
-        format: 24,
-        step: 15,
-        setLabel: 'Valider'
-    };
-
-    
-    $scope.openTimePicker = function(){
-        ionicTimePicker.openTimePicker(timePickerConfig);
-    };
-    
-    $scope.openDatePicker = function(){
-        ionicDatePicker.openDatePicker(datePickerConfig);
-    };
-
+    $scope.series = 1;
+    $scope.repetitions = 5;
 
 
     ionic.Platform.ready(function(){
@@ -138,28 +97,14 @@ angular.module('starter.controllers', [])
             $scope.exercise.image = 'https://wger.de/static/images/icons/image-placeholder.svg';
         });
 
-        /* Enregistrement dans le calendrier */
+        /* Enregistrement d'un evenement */
 
         $scope.addEvent = function () {
-            console.log($scope.time);
+            var exercice = JSON.parse(localStorage.getItem('exercices')) || [];
+            exercice.push({name: newExercice.name, date: newExercice.date, series: newExercice.series, repetitions: newExercice.repetitions, frequence: newExercice.frequence });
+            localStorage.setItem('exercices', JSON.stringify(exercice));
 
-            var incrementHour = function(date, amount) {
-                var tmpDate = new Date(date);
-                tmpDate.setHours(tmpDate.getHours() + amount);
-                return tmpDate;
-            };
-
-            /*$cordovaCalendar.createEventWithOptions({
-                title: $scope.exercise.selectedOption.name,
-                location: 'Maison',
-                notes: 'Sport is life !',
-                startDate: date,
-                endDate: incrementHour(date, 1)
-            }).then(function (result) {
-                console.log(result);
-            }, function (err) {
-                console.log(err);
-            });*/
+            $state.go('tab.dash');
         };
 
         /* Fin En */
@@ -210,13 +155,14 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('AccountCtrl', function($scope) {
+.controller('AccountCtrl', function($scope, Events) {
   $scope.settings = {
     enableFriends: true
   };
 })
 
 .controller('dashCtrl', function($scope, $state){
+
     var ref = new Firebase("https://crackling-inferno-6605.firebaseio.com");
     // find a suitable name based on the meta info given by each provider
     var authData = ref.getAuth();
@@ -231,11 +177,15 @@ angular.module('starter.controllers', [])
         }
     }
     $scope.name = getName(authData);
+
+    $scope.exercises = JSON.parse(localStorage.getItem('exercices')) || [];
+    //console.log($scope.exercises);
+
     $scope.new = function () {
       $state.go('dash-new');
     };
 
-    $scope.name = getName(authData);
+    
 })
 
 
@@ -319,66 +269,5 @@ angular.module('starter.controllers', [])
     }
 });
 
-/*.controller('loginCtrl', function($scope, $http, $state, $cookieStore){
-    var user = {};
-    $scope.update = function (user) {
-
-        //console.log(user.email);
-
-        $http({
-            method: "post",
-            url: "http://localhost/coachsportif/www/php/login.php",
-            crossDomain: true,
-            data: {
-                email: user.email,
-                password: user.password
-            }
-        } ).then(function(resp) {
-            console.log(resp.data);
-
-            if (resp.data.success === "true"){
-                $state.go('tab.dash');
-            } else {
-                $scope.error = resp.data.error;
-            }
-            // For JSON responses, resp.data contains the result
-        }, function(err) {
-            console.error('ERR', err);
-            // err.status will contain the status code
-        })
-    }
-})
-
-
-.controller('registerCtrl', function ($scope, $http, $state){
-    var user = {};
-    $scope.register = function (user) {
-        console.log(user);
-
-        $http({
-            method: "post",
-            url: "http://localhost/coachsportif/www/php/register.php",
-            crossDomain: true,
-            data: {
-                email: user.email,
-                name: user.name,
-                password: user.password,
-                password2: user.password2
-            }
-        } ).then(function(resp) {
-            console.log(resp.data);
-
-            if (resp.data.success === "true"){
-                $state.go('tab.dash');
-            } else {
-                $scope.error = resp.data.error;
-            }
-            // For JSON responses, resp.data contains the result
-        }, function(err) {
-            console.error('ERR', err);
-            // err.status will contain the status code
-        })
-    }
-});*/
 
 

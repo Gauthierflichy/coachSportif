@@ -4,8 +4,8 @@
   <description>
         Application interactive pour gérer son programme sportif.
     </description>
-  <author email="you@example.com" href="http://example.com.com/">
-      Your Name Here
+  <author email="ga2016@flichy.biz" href="http://gauthierflichy.com">
+      Gauthier Flichy
     </author>
   <content src="index.html"/>
   <access origin="*"/>
