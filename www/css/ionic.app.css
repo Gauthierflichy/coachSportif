@@ -26,6 +26,8 @@ $dark:                            #444 !default;
   used under CC BY http://creativecommons.org/licenses/by/4.0/
   Modified icons to fit ionicon’s grid from original.
 */
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+@import url(https://fonts.googleapis.com/css?family=Lato);
 @font-face {
   font-family: "Ionicons";
   src: url("../lib/ionic/fonts/ionicons.eot?v=2.0.1");
@@ -9731,10 +9733,63 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+body {
+  font-family: 'Roboto'; }
+
 .dashboard {
   min-height: 100%; }
   .dashboard .add-exo {
     border-radius: 49%;
     position: fixed;
-    bottom: 5px;
-    right: 5px; }
+    bottom: 20px;
+    right: 20px;
+    right: 5px;
+    width: 80px;
+    height: 80px; }
+
+.new-footer {
+  position: fixed; }
+
+h3 {
+  font-family: 'Lato';
+  font-size: 15px;
+  font-weight: bold;
+  color: white; }
+
+h2 {
+  font-family: 'Roboto';
+  color: white;
+  font-size: 20px;
+  font-weight: bold; }
+
+.login-content {
+  background-image: url("../img/Trail-Running.jpg");
+  background-size: cover; }
+
+.login-container {
+  position: fixed;
+  bottom: 0; }
+  .login-container h2 {
+    color: black; }
+
+.exo-dash {
+  background-image: url("../img/maxresdefault.jpg");
+  background-size: cover;
+  margin-top: 5px; }
+
+.description-exo p {
+  font-family: 'Lato';
+  color: white; }
+
+.nombre-repetition {
+  font-family: 'Lato';
+  font-size: 30px;
+  color: white; }
+  .nombre-repetition h3 {
+    font-size: 15px; }
+  .nombre-repetition h4 {
+    font-size: 10px;
+    color: white; }
+
+.hr-exo {
+  width: 30px; }
