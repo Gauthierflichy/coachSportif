@@ -1,26 +1,39 @@
 <ion-view>
     <ion-content scroll="false" class="padding login-content">
 
-        <div class="login-container col-offset-10">
-                <h2> Inscription </h2>
-                <div class="list">
-                    <label class="item item-input">
-                        <input type="email" ng-model="user.email" placeholder="Email">
-                    </label>
-                   <!-- <label class="item item-input">
-                        <input type="text" ng-model="user.name" placeholder="Nom">
-                    </label>-->
-                    <label class="item item-input">
-                        <input type="password" ng-model="user.password" placeholder="Mot de passe">
-                    </label>
-                   <!-- <label class="item item-input">
-                        <input type="password" ng-model="user.password2" placeholder="Confirmez le mot de passe">
-                    </label>-->
-                    <input type="button" class="button button-full button-balanced" value="Enregister" ng-click="register(user)">
-                    <p>Vous possédez déjà un compte ? <a href="#/login">Connectez-vous !</a></p>
-                    <h2>{{error}}</h2>
-                </div>
+        <div class="login-container col-80 col-offset-10 text-center">
+            <div>
+                <h2 class="col-offset-10" >S'INSCRIRE</h2>
+            </div>
 
-        </div>
+
+            <div class="list col-offset-10">
+
+
+                <label class=" item-input item-floating-label">
+                    <input type="email" ng-model="user.email" placeholder="Email">
+                </label>
+
+
+                <label class=" item-input item-floating-label">
+                    <input type="password" ng-model="user.password" placeholder="Mot de passe">
+                </label>
+
+
+                <input type="button" class="button button-full button-assertive" value="S'inscrire" ng-click="register(user)">
+
+                <p>Vous avez déjà un compte <a ui-sref="login">Se connecter</a></p>
+
+                <h2>{{error}}</h2>
+
+
+
+
+            </div>
+
+
+        </div> <!--end login-container-->
+
+
     </ion-content>
 </ion-view>

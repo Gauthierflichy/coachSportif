@@ -1,27 +1,25 @@
 <ion-view xmlns="http://www.w3.org/1999/html">
     <ion-content scroll="false" class="login-content">
 
-        <div class="login-container col-80 col-offset-10 text-center">
-            <div>
-                <h2 >CONNEXION</h2>
-            </div>
+        <div class="login-container col-100  text-center">
+
+            <h2 class="col-offset-10" >CONNEXION</h2>
 
 
-            <div class="formulaire">
-                <div class="list">
+                <div class="list login">
+
+                        <label class="item-input item-floating-label">
+                            <input type="email" ng-model="user.email" placeholder="Email">
+                        </label>
 
 
-                    <label class="item item-input item-floating-label">
-                        <input type="email" ng-model="user.email" placeholder="Email">
-                    </label>
 
-
-                    <label class=" item-input item-floating-label">
+                    <label class="item-input item-floating-label">
                         <input type="password" ng-model="user.password" placeholder="Mot de passe">
                     </label>
 
 
-                    <input type="button" class="button button-full button-assertive col-offset-33" value="Se connecter" ng-click="login(user)">
+                    <input type="button" class="button button-full button-assertive" value="Se connecter" ng-click="login(user)">
 
                     <p>Pas encore de compte ? <a href="#/register">Enregistrez-vous !</a></p>
 
@@ -37,9 +35,6 @@
 
 
                 </div>
-
-
-            </div>
 
 
         </div> <!--end login-container-->
