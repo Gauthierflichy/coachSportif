@@ -9736,16 +9736,21 @@ a.button {
 body {
   font-family: 'Roboto'; }
 
-.dashboard {
-  min-height: 100%; }
-  .dashboard .add-exo {
-    border-radius: 49%;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    right: 5px;
-    width: 80px;
-    height: 80px; }
+.exo-dash .add-exo {
+  border-radius: 50%;
+  position: fixed;
+  bottom: 0px;
+  right: 20px;
+  margin-bottom: 40px;
+  width: 60px;
+  height: 60px;
+  border: none;
+  background-color: #ef473a;
+  display: none; }
+  .exo-dash .add-exo p {
+    font-size: 75px;
+    margin-top: -33px;
+    color: white; }
 
 .new-footer {
   position: fixed; }
@@ -9762,15 +9767,29 @@ h2 {
   font-size: 20px;
   font-weight: bold; }
 
+input {
+  display: inline-block !important; }
+
 .login-content {
   background-image: url("../img/Trail-Running.jpg");
   background-size: cover; }
 
 .login-container {
   position: fixed;
-  bottom: 0; }
+  bottom: 0;
+  margin-left: 0; }
   .login-container h2 {
     color: black; }
+
+.item-input input {
+  border-radius: 20px !important;
+  background-color: rgba(255, 255, 255, 0.7) !important;
+  padding-left: 40px;
+  height: 35px;
+  width: 300px; }
+
+.item-input input:focus {
+  background-color: rgba(255, 255, 255, 0.9) !important; }
 
 .exo-dash {
   background-image: url("../img/maxresdefault.jpg");
@@ -9793,3 +9812,74 @@ h2 {
 
 .hr-exo {
   width: 30px; }
+
+/* Load animation */
+@-webkit-keyframes
+load {
+  0% {
+    stroke-dashoffset: 0; } }
+
+@-moz-keyframes
+load {
+  0% {
+    stroke-dashoffset: 0; } }
+
+@keyframes
+load {
+  0% {
+    stroke-dashoffset: 0; } }
+
+/* Container */
+.progress {
+  position: relative;
+  display: inline-block;
+  padding: 0;
+  text-align: center; }
+
+/* Item */
+.progress > li {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  color: white;
+  font-family: Roboto;
+  font-weight: bold; }
+
+.progress > li:before {
+  content: attr(data-name);
+  position: absolute;
+  width: 100%;
+  bottom: -2rem;
+  font-weight: 400; }
+
+.progress > li:after {
+  content: attr(data-percent);
+  position: absolute;
+  width: 100%;
+  top: 3.7rem;
+  left: 0;
+  font-size: 0.8em;
+  text-align: center; }
+
+.progress svg {
+  width: 6rem;
+  height: 6rem; }
+
+.progress svg:nth-child(2) {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg); }
+
+.progress svg:nth-child(2) path {
+  fill: none;
+  stroke-width: 25;
+  stroke-dasharray: 629;
+  stroke: rgba(255, 255, 255, 0.9);
+  -webkit-animation: load 10s;
+  -moz-animation: load 10s;
+  -o-animation: load 10s;
+  animation: load 10s; }
