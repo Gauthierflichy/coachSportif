@@ -9777,19 +9777,49 @@ input {
 .login-container {
   position: fixed;
   bottom: 0;
-  margin-left: 0; }
+  margin-left: 5%; }
   .login-container h2 {
     color: black; }
+  .login-container p {
+    color: white; }
+  .login-container a {
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    font-size: 15px; }
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px white inset;
+  -webkit-text-fill-color: #a9a9a9 !important; }
 
 .item-input input {
-  border-radius: 20px !important;
+  border-radius: 30px !important;
   background-color: rgba(255, 255, 255, 0.7) !important;
   padding-left: 40px;
-  height: 35px;
-  width: 300px; }
+  height: 45px;
+  width: 300px;
+  margin-left: -5%; }
 
 .item-input input:focus {
   background-color: rgba(255, 255, 255, 0.9) !important; }
+
+.button-login {
+  background-color: white;
+  height: 50px;
+  border-radius: 40px;
+  border: none; }
+  .button-login p {
+    color: red;
+    padding-top: 15px; }
+
+.login-dejacompte {
+  padding-top: 20px; }
+
+.login-social {
+  display: inline-block;
+  margin-left: -5%; }
+  .login-social img {
+    margin-left: 20px; }
 
 .exo-dash {
   background-image: url("../img/maxresdefault.jpg");
