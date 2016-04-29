@@ -1,27 +1,59 @@
 <ion-view view-title="Dashboard">
-  <ion-content>
-    <div class="dashboard">
-      <h2>Welcome to Ionic {{ name }}</h2>
+    <ion-content>
+
+        <!-- commence ta boucle For ici -->
+        <div class="col-100 exo-dash">
+            <h2 class="text-center">BICEPS</h2>
+
+            <div class="row">
+
+                <div class="col-40 col-offset-10 cat-exo ">
+                    <h3>Catégorie :</h3>
+                    <h3>Équipement :</h3>
+                    <h3>Description :</h3>
+                </div>
+
+                <div class="col-45 description-exo text-left">
+                    <p>Bras</p>
+                    <p>Haltères</p>
+                    <p>fLorem ipsum dolor sit amet, consectetur adipisicing elit. Ab consectetur distinctio ducimus
+                        of.</p>
+                </div>
+            </div> <!--end row-->
+
+
+            <div class="row padding-top">
+
+                <div class="col-33 text-center nombre-repetition">
+                    <h3>5 séries</h3>
+                    <p>30</p>
+                    <HR ALIGN="center" class="hr-exo" color="#ec8073">
+                    <h4>REPÉTITIONS</h4>
+                </div>
+
+                <div class="col-33 text-center nombre-repetition">
+                    <h3>2 semaines</h3>
+                    <p>1 jour / 2</p>
+                    <HR ALIGN="center" class="hr-exo" color="#ec8073">
+                    <h4>RÉCURRENCE</h4>
+                </div>
+
+                <div class="col-33 text-center nombre-repetition">
+                    <h3>5 séries</h3>
+                    <p>30</p>
+                    <HR ALIGN="center" class="hr-exo" color="#ec8073">
+                    <h4>REPÉTITIONS</h4>
+                </div>
+
+
+            </div> <!--end row nombre repetition -->
+        </div> <!-- end col-100 -->
 
 
 
-      <div class="row">
-
-        <div class="col col-50">
-          <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores commodi, dolorum enim expedita
-            facilis inventore, iure libero molestiae nam nobis, quae quos sapiente sed soluta unde. Autem facere hic
-            odio!
-          </div>
-        </div>
-
-        <div class="col col-50">
 
 
-      </div>
 
-      <button class="button button-assertive add-exo" ng-click="new()">
-        <i class="icon ion-plus"></i>
-      </button>
-    </div>
-  </ion-content>
+
+    </ion-content>
 </ion-view>

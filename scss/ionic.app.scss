@@ -20,12 +20,98 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
+
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+@import url(https://fonts.googleapis.com/css?family=Lato);
+
+body {
+  font-family: 'Roboto';
+}
+
+
+
 .dashboard {
   min-height: 100%;
   .add-exo {
     border-radius: 49%;
     position: fixed;
-    bottom: 5px;
+    bottom: 20px;
+    right: 20px;
     right: 5px;
+    width: 80px;
+    height: 80px;
   }
 }
+
+.new-footer {
+  position: fixed;
+}
+
+h3 {
+  font-family: 'Lato';
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+}
+
+h2 {
+  font-family: 'Roboto';
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+
+
+.login-content {
+  background-image: url('../img/Trail-Running.jpg');
+  background-size:cover;
+}
+
+.login-container {
+  position: fixed;
+  bottom: 0;
+  
+  h2 {
+    color: black;
+  }
+}
+
+
+
+
+
+
+
+
+
+.exo-dash{
+  background-image: url('../img/maxresdefault.jpg');
+  background-size :cover;
+  margin-top: 5px;
+}
+
+.description-exo p {
+  font-family: 'Lato';
+  color: white;
+}
+
+.nombre-repetition {
+  font-family: 'Lato';
+  font-size: 30px;
+  color: white;
+  h3 {
+    font-size: 15px;
+  }
+
+  h4 {
+    font-size: 10px;
+    color: white;
+  }
+
+}
+
+.hr-exo {
+  width: 30px;
+}
+
