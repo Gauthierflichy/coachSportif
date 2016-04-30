@@ -16,6 +16,12 @@ angular.module('starter.controllers', [])
 })
 
 .controller('newCtrl', function($scope, $http, $state) {
+
+    var currentDate = new Date();
+    var date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+
+    $scope.date = date;
+
     $scope.category = {
         available: {},
         selectedOption: {id: '10', name: 'Abs'}
@@ -32,20 +38,14 @@ angular.module('starter.controllers', [])
         image: {}
     };
 
-    var newExercice = {
-        name: $scope.exercise.selectedOption.name,
-        date: $scope.date,
-        series: $scope.series,
-        repetitions : $scope.repetitions,
-        frequence: $scope.frequence
+    $scope.e = {
+        name: {},
+        newDate: $scope.date,
+        series: 1,
+        repetitions : 5,
+        frequence: "Une seul fois"
     };
 
-    var currentDate = new Date();
-    var date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-
-    $scope.date = date;
-    $scope.series = 1;
-    $scope.repetitions = 5;
 
 
     ionic.Platform.ready(function(){
@@ -56,7 +56,7 @@ angular.module('starter.controllers', [])
                 'Authorization': 'Token ad78fdd67e0802f6eae06c02b406fbb1b51b558a'}
         }).then(function successCallback(response) {
             $scope.exercise.available = response.data.results;
-            $scope.exercise.selectedOption = response.data.results[0];
+            $scope.e.name = response.data.results[0];
             $scope.is_available = true;
         }, function errorCallback(response) {
             console.log("No data found..");
@@ -99,12 +99,37 @@ angular.module('starter.controllers', [])
 
         /* Enregistrement d'un evenement */
 
-        $scope.addEvent = function () {
-            var exercice = JSON.parse(localStorage.getItem('exercices')) || [];
-            exercice.push({name: newExercice.name, date: newExercice.date, series: newExercice.series, repetitions: newExercice.repetitions, frequence: newExercice.frequence });
-            localStorage.setItem('exercices', JSON.stringify(exercice));
+        $scope.addEvent = function (e) {
+            var ref = new Firebase("https://crackling-inferno-6605.firebaseio.com/exercices");
+            // find a suitable name based on the meta info given by each provider
+            var authData = ref.getAuth();
+            function getName(authData) {
+                switch(authData.provider) {
+                    case 'password':
+                        return authData.password.email.replace(/@.*/, '');
+                    case 'twitter':
+                        return authData.twitter.displayName;
+                    case 'facebook':
+                        return authData.facebook.displayName;
+                }
+            }
+
+            OwnerName = getName(authData);
+            var theDate = e.newDate.toJSON();
+            ref.push({
+                exercice: {
+                    name: e.name.name,
+                    date: theDate,
+                    series: e.series,
+                    repetition: e.repetitions,
+                    frequence: e.frequence
+                },
+                owner: OwnerName
+            });
 
             $state.go('tab.dash');
+
+            //console.log(e.newDate, theDate);
         };
 
         /* Fin En */
@@ -125,7 +150,7 @@ angular.module('starter.controllers', [])
                    $scope.is_available = false;
                }
                $scope.exercise.available = response.data.results;
-               $scope.exercise.selectedOption = response.data.results[0];
+               $scope.e.name = response.data.results[0];
 
                console.log($scope.is_available);
 
@@ -164,7 +189,7 @@ angular.module('starter.controllers', [])
 .controller('dashCtrl', function($scope, $state){
 
     var ref = new Firebase("https://crackling-inferno-6605.firebaseio.com");
-    // find a suitable name based on the meta info given by each provider
+
     var authData = ref.getAuth();
     function getName(authData) {
         switch(authData.provider) {
@@ -177,9 +202,14 @@ angular.module('starter.controllers', [])
         }
     }
     $scope.name = getName(authData);
+    $scope.myExercices = [];
+    ref.child("exercices").orderByChild("owner").equalTo($scope.name).on("child_added", function(snapshot) {
+        //console.log(snapshot.val().exercice);
+        $scope.myExercices.push(snapshot.val().exercice);
+    });
 
-    $scope.exercises = JSON.parse(localStorage.getItem('exercices')) || [];
-    //console.log($scope.exercises);
+
+    
 
     $scope.new = function () {
       $state.go('dash-new');
