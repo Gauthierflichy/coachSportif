@@ -9777,7 +9777,8 @@ input {
 .login-container {
   position: fixed;
   bottom: 0;
-  margin-left: 5%; }
+  left: 50%;
+  margin-left: -158px; }
   .login-container h2 {
     color: black; }
   .login-container p {
@@ -9842,6 +9843,9 @@ input:-webkit-autofill {
 
 .hr-exo {
   width: 30px; }
+
+.tab-nav {
+  display: none; }
 
 /* Load animation */
 @-webkit-keyframes
