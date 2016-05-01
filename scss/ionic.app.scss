@@ -81,9 +81,10 @@ input {
 }
 
 .login-container {
-  position: fixed;
-  bottom: 0;
-  margin-left: 5%;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    margin-left:-158px;
   
   h2 {
     color: black;
@@ -183,6 +184,11 @@ input:-webkit-autofill {
 
 .hr-exo {
   width: 30px;
+}
+
+
+.tab-nav{
+  display: none;
 }
 
 
