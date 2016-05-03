@@ -1,12 +1,20 @@
 <ion-view view-title="Dashboard">
-  <ion-content class="padding">
+  <ion-content has-bouncing="true" class="padding">
     <div class="dashboard">
       <h2>Welcome to Ionic {{ name }}</h2>
+          <div class="card" ng-repeat="ex in myExercices">
+            <div class="item item-divider">
+              {{ ex.name }}
+            </div>
+            <div class="item item-text-wrap">
+              <ul class="list">
+                <li>{{ ex.date | date: 'dd MMMM yyyy' }}</li>
+                <i class="icon ion-delete"></i>
+              </ul>
+            </div>
+          </div>
       <ion-floating-button click="new()" has-footer="false" button-color="#2AC9AA" icon="ion-plus" iconColor="#fff">
       </ion-floating-button>
-      <!--<button class="button button-assertive add-exo" ng-click="new()">
-        <i class="icon ion-plus"></i>
-      </button>-->
     </div>
   </ion-content>
 </ion-view>

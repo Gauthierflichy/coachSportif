@@ -15,7 +15,13 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('newCtrl', function($scope, $http, $ionicPlatform, $cordovaCalendar, ionicDatePicker, ionicTimePicker) {
+.controller('newCtrl', function($scope, $http, $state) {
+
+    var currentDate = new Date();
+    var date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+
+    $scope.date = date;
+
     $scope.category = {
         available: {},
         selectedOption: {id: '10', name: 'Abs'}
@@ -29,62 +35,15 @@ angular.module('starter.controllers', [])
     $scope.exercise = {
         available: {},
         selectedOption: {},
-        image: {},
-        date: {}
+        image: {}
     };
 
-    var currentDate = new Date();
-    var date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-
-    $scope.date = date;
-    //$scope.time = date.getHours()+ "h" + date.getMinutes();
-
-    var datePickerConfig = {
-        callback: function (val) {  //Mandatory
-            $scope.date = val;
-            console.log('Return value from the datepicker popup is : ' + val, new Date(val));
-        },
-        monthsList: ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"],
-        weeksList: ["L", "M", "M", "J", "V", "S", "D"],
-        from: new Date(2010, 1, 1),
-        to: new Date(2100, 10, 30),
-        inputDate: currentDate,
-        mondayFirst: false,
-        setLabel: 'Valider',
-        closeLabel: 'Fermer',
-        todayLabel: 'Ajourd\'hui',
-        showTodayButton: false,
-        dateFormat: 'dd MMMM yyyy',
-        closeOnSelect: true,
-        templateType: 'popup'
-    };
-
-    var timePickerConfig = {
-        callback: function (val) {      //Mandatory
-            if (typeof (val) === 'undefined') {
-                console.log('Time not selected');
-            } else {
-                var selectedTime = new Date(val * 1000);
-                //$scope.time = selectedTime;
-                console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
-            }
-            console.log(selectedTime);
-            $scope.time = selectedTime;
-            console.log($scope.time);
-        },
-        inputTime: 54000,
-        format: 24,
-        step: 15,
-        setLabel: 'Valider'
-    };
-
-    
-    $scope.openTimePicker = function(){
-        ionicTimePicker.openTimePicker(timePickerConfig);
-    };
-    
-    $scope.openDatePicker = function(){
-        ionicDatePicker.openDatePicker(datePickerConfig);
+    $scope.e = {
+        name: {},
+        newDate: $scope.date,
+        series: 1,
+        repetitions : 5,
+        frequence: "Une seul fois"
     };
 
 
@@ -97,7 +56,7 @@ angular.module('starter.controllers', [])
                 'Authorization': 'Token ad78fdd67e0802f6eae06c02b406fbb1b51b558a'}
         }).then(function successCallback(response) {
             $scope.exercise.available = response.data.results;
-            $scope.exercise.selectedOption = response.data.results[0];
+            $scope.e.name = response.data.results[0];
             $scope.is_available = true;
         }, function errorCallback(response) {
             console.log("No data found..");
@@ -138,28 +97,39 @@ angular.module('starter.controllers', [])
             $scope.exercise.image = 'https://wger.de/static/images/icons/image-placeholder.svg';
         });
 
-        /* Enregistrement dans le calendrier */
+        /* Enregistrement d'un evenement */
 
-        $scope.addEvent = function () {
-            var incrementHour = function(date, amount) {
-                var tmpDate = new Date(date);
-                tmpDate.setHours(tmpDate.getHours() + amount);
-                return tmpDate;
-            };
+        $scope.addEvent = function (e) {
+            var ref = new Firebase("https://crackling-inferno-6605.firebaseio.com/exercices");
+            // find a suitable name based on the meta info given by each provider
+            var authData = ref.getAuth();
+            function getName(authData) {
+                switch(authData.provider) {
+                    case 'password':
+                        return authData.password.email.replace(/@.*/, '');
+                    case 'twitter':
+                        return authData.twitter.displayName;
+                    case 'facebook':
+                        return authData.facebook.displayName;
+                }
+            }
 
-            //console.log($scope.exercise.selectedOption.name, $scope.date);
-
-            $cordovaCalendar.createEventInteractively({
-                title: 'Test',
-                location: 'Maison',
-                notes: 'Sport is life !',
-                startDate: new Date(2016, 4, 26, 18, 30, 0, 0, 0),
-                endDate: new Date(2016, 4, 26, 197, 0, 0, 0, 0)
-            }).then(function (result) {
-                console.log(result);
-            }, function (err) {
-                console.log(err);
+            OwnerName = getName(authData);
+            var theDate = e.newDate.toJSON();
+            ref.push({
+                exercice: {
+                    name: e.name.name,
+                    date: theDate,
+                    series: e.series,
+                    repetition: e.repetitions,
+                    frequence: e.frequence
+                },
+                owner: OwnerName
             });
+
+            $state.go('tab.dash');
+
+            //console.log(e.newDate, theDate);
         };
 
         /* Fin En */
@@ -180,7 +150,7 @@ angular.module('starter.controllers', [])
                    $scope.is_available = false;
                }
                $scope.exercise.available = response.data.results;
-               $scope.exercise.selectedOption = response.data.results[0];
+               $scope.e.name = response.data.results[0];
 
                console.log($scope.is_available);
 
@@ -217,8 +187,9 @@ angular.module('starter.controllers', [])
 })
 
 .controller('dashCtrl', function($scope, $state){
+
     var ref = new Firebase("https://crackling-inferno-6605.firebaseio.com");
-    // find a suitable name based on the meta info given by each provider
+
     var authData = ref.getAuth();
     function getName(authData) {
         switch(authData.provider) {
@@ -231,9 +202,22 @@ angular.module('starter.controllers', [])
         }
     }
     $scope.name = getName(authData);
+    $scope.myExercices = [];
+    ref.child("exercices").orderByChild("owner").equalTo($scope.name).on("child_added", function(snapshot) {
+        //console.log(snapshot.val().exercice);
+        $scope.myExercices.push(snapshot.val().exercice);
+    });
+
+    $scope.deleteEvent() = function (e) {
+        //
+    };
+
+    
+
     $scope.new = function () {
       $state.go('dash-new');
     };
+
     
 })
 
@@ -318,66 +302,5 @@ angular.module('starter.controllers', [])
     }
 });
 
-/*.controller('loginCtrl', function($scope, $http, $state, $cookieStore){
-    var user = {};
-    $scope.update = function (user) {
-
-        //console.log(user.email);
-
-        $http({
-            method: "post",
-            url: "http://localhost/coachsportif/www/php/login.php",
-            crossDomain: true,
-            data: {
-                email: user.email,
-                password: user.password
-            }
-        } ).then(function(resp) {
-            console.log(resp.data);
-
-            if (resp.data.success === "true"){
-                $state.go('tab.dash');
-            } else {
-                $scope.error = resp.data.error;
-            }
-            // For JSON responses, resp.data contains the result
-        }, function(err) {
-            console.error('ERR', err);
-            // err.status will contain the status code
-        })
-    }
-})
-
-
-.controller('registerCtrl', function ($scope, $http, $state){
-    var user = {};
-    $scope.register = function (user) {
-        console.log(user);
-
-        $http({
-            method: "post",
-            url: "http://localhost/coachsportif/www/php/register.php",
-            crossDomain: true,
-            data: {
-                email: user.email,
-                name: user.name,
-                password: user.password,
-                password2: user.password2
-            }
-        } ).then(function(resp) {
-            console.log(resp.data);
-
-            if (resp.data.success === "true"){
-                $state.go('tab.dash');
-            } else {
-                $scope.error = resp.data.error;
-            }
-            // For JSON responses, resp.data contains the result
-        }, function(err) {
-            console.error('ERR', err);
-            // err.status will contain the status code
-        })
-    }
-});*/
 
 

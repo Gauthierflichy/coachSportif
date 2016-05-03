@@ -3,18 +3,24 @@
         <h2> Connection </h2>
         <div class="list">
             <label class="item item-input">
-                <input type="email" ng-model="user.email" placeholder="Email">
+                <input type="email" ng-model="user.email" placeholder="Email" required>
             </label>
             <label class="item item-input">
-                <input type="password" ng-model="user.password" placeholder="Mot de passe">
+                <input type="password" ng-model="user.password" placeholder="Mot de passe" required>
             </label>
             <input type="button" class="button button-full button-balanced" value="Commencer" ng-click="login(user)">
             <p>Pas encore de compte ? <a href="#/register">Enregistrez-vous !</a></p>
             <a ng-click="loginfb()" class="btn btn-block btn-social btn-twitter">
                 <span class="fa fa-twitter"></span>
-                Sign in with Twitter
+                Sign in with Facebook
             </a>
             <h2>{{error}}</h2>
+            <div class="sk-folding-cube" ng-show="isSomethingLoading">
+                <div class="sk-cube1 sk-cube"></div>
+                <div class="sk-cube2 sk-cube"></div>
+                <div class="sk-cube4 sk-cube"></div>
+                <div class="sk-cube3 sk-cube"></div>
+            </div>
         </div>
     </ion-content>
 </ion-view>

@@ -30,112 +30,68 @@ angular.module('starter.services', [])
 
 })
 
-.factory('Events', function($q,$cordovaCalendar) {
+.factory('DBconnect', function () {
 
-  //kind of a hack
-  var incrementDate = function (date, amount) {
-    var tmpDate = new Date(date);
-    tmpDate.setDate(tmpDate.getDate() + amount);
-    tmpDate.setHours(13);
-    tmpDate.setMinutes(0);
-    tmpDate.setSeconds(0);
-    tmpDate.setMilliseconds(0);
-    return tmpDate;
-  };
+  var myExercices = [];
 
-  var incrementHour = function(date, amount) {
-    var tmpDate = new Date(date);
-    tmpDate.setHours(tmpDate.getHours() + amount);
-    return tmpDate;
-  };
+  var db = {
 
-  //create fake events, but make it dynamic so they are in the next week
-  var fakeEvents = [];
-  fakeEvents.push(
-      {
-        "title":"Meetup on Ionic",
-        "description":"We'll talk about beer, not Ionic.",
-        "date":incrementDate(new Date(), 1)
+    getName: function (authData) {
+      switch(authData.provider) {
+        case 'password':
+          name =  authData.password.email.replace(/@.*/, '');
+          return name;
+        case 'twitter':
+          name =  authData.twitter.displayName;
+          return name;
+        case 'facebook':
+          name =  authData.facebook.displayName;
+          return name;
       }
-  );
-  fakeEvents.push(
-      {
-        "title":"Meetup on Beer",
-        "description":"We'll talk about Ionic, not Beer.",
-        "date":incrementDate(new Date(), 2)
-      }
-  );
-  fakeEvents.push(
-      {
-        "title":"Ray's Birthday Bash",
-        "description":"Celebrate the awesomeness of Ray",
-        "date":incrementDate(new Date(), 4)
-      }
-  );
-  fakeEvents.push(
-      {
-        "title":"Code Review",
-        "description":"Let's tear apart Ray's code.",
-        "date":incrementDate(new Date(), 5)
-      }
-  );
+    },
+    
 
-  var getEvents = function() {
-    var deferred = $q.defer();
+    deleteExo: function (ex, ref, name) {
+      ref.child("exercices/"+ name+"/"+ex.id).remove();
 
-    /*
-     Logic is:
-     For each, see if it exists an event.
-     */
-    var promises = [];
-    fakeEvents.forEach(function(ev) {
-      //add enddate as 1 hour plus
-      ev.enddate = incrementHour(ev.date, 1);
-      console.log('try to find '+JSON.stringify(ev));
-      promises.push($cordovaCalendar.findEvent({
-        title:ev.title,
-        startDate:ev.date
-      }));
-    });
 
-    $q.all(promises).then(function(results) {
-      console.log("in the all done");
-      //should be the same len as events
-      for(var i=0;i<results.length;i++) {
-        fakeEvents[i].status = results[i].length === 1;
-      }
-      deferred.resolve(fakeEvents);
-    });
+      ref.child("exercices/"+ name).on("child_removed", function(snapshot) {
+         var deletedPost = snapshot.val();
+         console.log("The blog post titled '" + deletedPost + "' has been deleted");
+       });
+    },
 
-    return deferred.promise;
-  };
+    addExo : function (e, ref, name) {
 
-  var addEvent = function(event) {
-    var deferred = $q.defer();
+      var newPush = ref.child("exercices/"+ name).push({
+          name: e.name.name,
+          date: e.newDate.toJSON(),
+          series: e.series,
+          repetition: e.repetitions,
+          frequence: e.frequence
+      });
 
-    $cordovaCalendar.createEvent({
-      title: event.title,
-      notes: event.description,
-      startDate: event.date,
-      endDate:event.enddate
-    }).then(function (result) {
-      console.log('success');console.dir(result);
-      deferred.resolve(1);
-    }, function (err) {
-      console.log('error');console.dir(err);
-      deferred.resolve(0);
-    });
+      var exoID = newPush.key();
 
-    return deferred.promise;
+      ref.child("exercices/"+name+"/"+exoID).update({
+          id:  exoID
+      });
+
+      console.log(exoID);
+
+      ref.child("exercices/"+ name).on("child_added", function(snapshot) {
+            var addedPost = snapshot.val().name;
+            console.log("The blog post titled '" + addedPost + "' has been added");
+      });
+    }
 
   };
 
-  return {
-    get:getEvents,
-    add:addEvent
-  };
+  return db;
 
 });
+
+
 
 
 /*.factory("Auth", function($firebaseAuth) {
