@@ -6,7 +6,7 @@ For example, you might change some of the default colors:
 
 $light:                           #fff !default;
 $stable:                          #f8f8f8 !default;
-$positive:                        #387ef5 !default;
+$positive:                        #9dd0fd !default;
 $calm:                            #11c1f3 !default;
 $balanced:                        #33cd5f !default;
 $energized:                       #ffc900 !default;
@@ -14,6 +14,8 @@ $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
+
+$positive: #9dd0fd !default;
 
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
@@ -69,6 +71,10 @@ h2 {
   font-size: 20px;
   font-weight: bold;
 }
+
+
+
+/*LOGIN*/
 
 input {
   display: inline-block !important;
@@ -149,11 +155,12 @@ input:-webkit-autofill {
     margin-left: 20px;
   }
 }
+/* FIN LOGIN */
 
 
 
 
-
+/* DASHBOARD EXO */
 
 
 .exo-dash{
@@ -190,8 +197,6 @@ input:-webkit-autofill {
 .tab-nav{
   display: none;
 }
-
-
 
 
 
@@ -277,3 +282,75 @@ load { 0% {
   animation: load 10s;
 }
 
+
+
+
+/* MENU */
+
+/* MENU LEFT */
+.menu {
+  background-color: #e8e8e8 ;
+  .item-content {
+    background-color: #e8e8e8 !important;
+  }
+}
+
+.profil-menu {
+  height:25%;
+  background-color: #e57273;
+
+  h4 {
+    text-align: center;
+    line-height: 10px;
+  }
+
+  p {
+    text-align: center;
+  }
+}
+
+.icon-profil {
+  text-align: center;
+  img {
+    border-radius: 50%;
+    width:25%;
+    margin-top: 5%;
+  }
+
+}
+
+
+.liens-menu-single {
+  img {
+    height: 30px;
+  }
+
+  h4 {
+    font-family: Roboto;
+    padding-top: 3%;
+    padding-left: 5%;
+    font-size: 1.2em;
+  }
+}
+
+/*MENU TOP */
+
+.menu-top {
+  display: inline;
+  text-align: center;
+  width: 80%;
+  margin-left: 10%;
+
+  h1 {
+    top:0;
+    font-size: 20px;
+    display: inline-block;
+    margin-left: 10%;
+    margin-top: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}
