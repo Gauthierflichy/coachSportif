@@ -163,11 +163,38 @@ angular.module('starter.controllers', [])
   };
 })
 
+/* Dashboard
+*
+* Variabe retournées et disponibles dans le $scope:
+*   - name: (le nom de l'utilisateur)
+*
+*   - myExercices: (un tableau contenant tous les exercices du jour)
+*      Pour chacun des exercices, sont disponibles, les varaibles suivante:
+*
+*       - id
+*       - name
+*       - frequence
+*       - date
+*       - repetitions
+*       - series
+*/
+
+
 .controller('dashCtrl', function($scope, $state, DBconnect){
     var ref = new Firebase("https://crackling-inferno-6605.firebaseio.com");
     var authData = ref.getAuth();
 
-    $scope.name = DBconnect.getName(authData);
+    if (authData){
+        $scope.name = DBconnect.getName(authData, ref);
+    }else {
+        ref.unauth();
+        $state.go('login');
+    }
+
+    var date =  new Date();
+    var toDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    var test = toDay.toJSON;
+    console.log(test);
 
     ref.child("exercices/"+name).on("value", function(snapshot) {
         //console.log(snapshot.val());
@@ -175,16 +202,6 @@ angular.module('starter.controllers', [])
     }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
     });
-
-     ref.child("exercices/"+name).on("child_added", function(snapshot) {
-     //console.log(snapshot.val());
-     });
-
-     ref.child("exercices/"+name).on("child_removed", function(snapshot) {
-     //console.log(snapshot.val());
-     });
-
-    console.log($scope.myExercices);
 
     $scope.deleteExo = function (ex) {
         DBconnect.deleteExo(ex, ref, $scope.name);

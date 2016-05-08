@@ -6,11 +6,15 @@
             <div class="item item-divider">
               {{ ex.name }}
             </div>
+
             <div class="item item-text-wrap">
-              <ul class="list">
-                <li>{{ ex.date | date: 'dd MMMM yyyy' }}</li>
-                <li><i class="icon ion-close" ng-click="deleteExo(ex)"></i></li>
-              </ul>
+              <div class="list">
+                <div class="item item-icon-right item-icon-left">
+                  <i class="icon ion-close" ng-click="deleteExo(ex)"></i>
+                  {{ ex.date | date: 'dd MMMM yyyy' }}
+                  <i class="icon ion-checkmark-round" ng-click="deleteExo(ex)"></i>
+                </div>
+              </div>
             </div>
           </div>
       <ion-floating-button click="new()" has-footer="false" button-color="#2AC9AA" icon="ion-plus" iconColor="#fff">

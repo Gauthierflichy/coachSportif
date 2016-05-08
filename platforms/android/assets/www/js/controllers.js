@@ -15,7 +15,11 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('newCtrl', function($scope, $http, $state) {
+.controller('newCtrl', function($scope, $http, $state, DBconnect) {
+    var ref = new Firebase("https://crackling-inferno-6605.firebaseio.com");
+    var authData = ref.getAuth();
+
+    $scope.name = DBconnect.getName(authData);
 
     var currentDate = new Date();
     var date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
@@ -99,37 +103,10 @@ angular.module('starter.controllers', [])
 
         /* Enregistrement d'un evenement */
 
-        $scope.addEvent = function (e) {
-            var ref = new Firebase("https://crackling-inferno-6605.firebaseio.com/exercices");
-            // find a suitable name based on the meta info given by each provider
-            var authData = ref.getAuth();
-            function getName(authData) {
-                switch(authData.provider) {
-                    case 'password':
-                        return authData.password.email.replace(/@.*/, '');
-                    case 'twitter':
-                        return authData.twitter.displayName;
-                    case 'facebook':
-                        return authData.facebook.displayName;
-                }
-            }
-
-            OwnerName = getName(authData);
-            var theDate = e.newDate.toJSON();
-            ref.push({
-                exercice: {
-                    name: e.name.name,
-                    date: theDate,
-                    series: e.series,
-                    repetition: e.repetitions,
-                    frequence: e.frequence
-                },
-                owner: OwnerName
-            });
-
+        $scope.addExo = function (e) {
+            //console.log(e);
+            DBconnect.addExo(e, ref, $scope.name);
             $state.go('tab.dash');
-
-            //console.log(e.newDate, theDate);
         };
 
         /* Fin En */
@@ -186,33 +163,32 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('dashCtrl', function($scope, $state){
-
+.controller('dashCtrl', function($scope, $state, DBconnect){
     var ref = new Firebase("https://crackling-inferno-6605.firebaseio.com");
-
     var authData = ref.getAuth();
-    function getName(authData) {
-        switch(authData.provider) {
-            case 'password':
-                return authData.password.email.replace(/@.*/, '');
-            case 'twitter':
-                return authData.twitter.displayName;
-            case 'facebook':
-                return authData.facebook.displayName;
-        }
-    }
-    $scope.name = getName(authData);
-    $scope.myExercices = [];
-    ref.child("exercices").orderByChild("owner").equalTo($scope.name).on("child_added", function(snapshot) {
-        //console.log(snapshot.val().exercice);
-        $scope.myExercices.push(snapshot.val().exercice);
+
+    $scope.name = DBconnect.getName(authData);
+
+    ref.child("exercices/"+name).on("value", function(snapshot) {
+        //console.log(snapshot.val());
+        $scope.myExercices = snapshot.val();
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
     });
 
-    $scope.deleteEvent() = function (e) {
-        //
-    };
+     ref.child("exercices/"+name).on("child_added", function(snapshot) {
+     //console.log(snapshot.val());
+     });
 
-    
+     ref.child("exercices/"+name).on("child_removed", function(snapshot) {
+     //console.log(snapshot.val());
+     });
+
+    console.log($scope.myExercices);
+
+    $scope.deleteExo = function (ex) {
+        DBconnect.deleteExo(ex, ref, $scope.name);
+    };
 
     $scope.new = function () {
       $state.go('dash-new');
@@ -223,29 +199,38 @@ angular.module('starter.controllers', [])
 
 
 .controller('loginCtrl', function($scope, $state){
+
+    $scope.isSomethingLoading = false;
+
     $scope.login = function(user) {
+        $scope.isSomethingLoading = true;
         var isNewUser = true;
         var ref = new Firebase("https://crackling-inferno-6605.firebaseio.com");
         ref.authWithPassword({
-            email    : user.email,
-            password : user.password
-        }, function(error, authData) {
+            email: user.email,
+            password: user.password
+        }, function (error, authData) {
             if (error) {
                 switch (error.code) {
                     case "INVALID_EMAIL":
                         console.log("The specified user account email is invalid.");
+                        $scope.isSomethingLoading = false;
                         break;
                     case "INVALID_PASSWORD":
                         console.log("The specified user account password is incorrect.");
+                        $scope.isSomethingLoading = false;
                         break;
                     case "INVALID_USER":
                         console.log("The specified user account does not exist.");
+                        $scope.isSomethingLoading = false;
                         break;
                     default:
                         console.log("Error logging user in:", error);
+                        $scope.isSomethingLoading = false;
                 }
             } else {
                 console.log("Authenticated successfully with payload:", authData);
+                $scope.isSomethingLoading = false;
                 $state.go('tab.dash');
             }
         });
@@ -257,6 +242,7 @@ angular.module('starter.controllers', [])
                     console.log("Authentication Failed!", error);
                 } else {
                     console.log("Authenticated successfully with payload:", authData);
+                    $state.go('tab.dash');
                 }
             });
         };
