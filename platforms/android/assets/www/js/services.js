@@ -37,17 +37,18 @@ angular.module('starter.services', [])
   var db = {
 
     getName: function (authData) {
-      switch(authData.provider) {
-        case 'password':
-          name =  authData.password.email.replace(/@.*/, '');
-          return name;
-        case 'twitter':
-          name =  authData.twitter.displayName;
-          return name;
-        case 'facebook':
-          name =  authData.facebook.displayName;
-          return name;
-      }
+        switch(authData.provider) {
+          case 'password':
+            name =  authData.password.email.replace(/@.*/, '');
+            return name;
+          case 'twitter':
+            name =  authData.twitter.displayName;
+            return name;
+          case 'facebook':
+            name =  authData.facebook.displayName;
+            return name;
+        }
+
     },
     
 
