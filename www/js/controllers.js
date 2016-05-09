@@ -24,6 +24,7 @@ angular.module('starter.controllers', [])
     var currentDate = new Date();
     var date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
 
+
     $scope.date = date;
 
     $scope.category = {
@@ -191,12 +192,12 @@ angular.module('starter.controllers', [])
         $state.go('login');
     }
 
-    var date =  new Date();
-    var toDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    var test = toDay.toJSON;
-    console.log(test);
+    var currentDate = new Date();
+    var date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
 
-    ref.child("exercices/"+name).on("value", function(snapshot) {
+    console.log(date);
+
+    ref.child("exercices/"+name).orderByChild("date").equalTo(date.toJSON()).on("value", function(snapshot) {
         //console.log(snapshot.val());
         $scope.myExercices = snapshot.val();
     }, function (errorObject) {
