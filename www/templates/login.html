@@ -1,64 +1,25 @@
-<ion-view xmlns="http://www.w3.org/1999/html">
-    <ion-content scroll="false" class="login-content">
-
-        <div class="login-container col-100  text-center">
-
-            <h2>CONNEXION</h2>
-
-
-                <div class="list login">
-
-                        <label class="item-input item-floating-label">
-                            <input type="email" ng-model="user.email" placeholder="Email">
-                        </label>
-
-
-
-                    <label class="item-input item-floating-label">
-                        <input type="password" ng-model="user.password" placeholder="Mot de passe">
-                    </label>
-                    
-                    <div class="login-social">
-
-                            <img src="../img/facebook-logo.png" height="40" alt="">
-
-
-                            <img src="../img/google-plus-logo.png" height="40" alt="">
-
-
-                            <img src="../img/twitter-logo.png" height="40" alt="">
-                    </div>
-
-                    <button class="button-login button-full text-center" ng-click="login(user)">
-                        <p>SE CONNECTER</p>
-                    </button>
-
-            <!--
-                    <input type="button" class="button button-full button-assertive" value="Se connecter" ng-click="login(user)">
-            -->
-
-                    <div class="login-dejacompte">
-                        <p>Pas encore de compte ? <a href="#/register">INSCRIPTION</a></p>
-                    </div>
-
-
-
-            <!--
-                    <a ng-click="loginfb()" class="btn btn-block btn-social btn-twitter">
-                        <span class="fa fa-twitter"></span>
-                        Sign in with Twitter
-                    </a>
-
-            -->
-                    <h2>{{error}}</h2>
-
-
-
-
-                </div>
-
-
-        </div> <!--end login-container-->
-
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Login</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeLogin()">Close</button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <form ng-submit="doLogin()">
+            <div class="list">
+                <label class="item item-input">
+                    <span class="input-label">Username</span>
+                    <input type="text" ng-model="loginData.username">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Password</span>
+                    <input type="password" ng-model="loginData.password">
+                </label>
+                <label class="item">
+                    <button class="button button-block button-positive" type="submit">Log in</button>
+                </label>
+            </div>
+        </form>
     </ion-content>
-</ion-view>
+</ion-modal-view>

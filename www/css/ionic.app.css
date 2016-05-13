@@ -9823,6 +9823,10 @@ input:-webkit-autofill {
   .login-social img {
     margin-left: 20px; }
 
+.bouton-login :active {
+  transition: all .2s ease-in-out;
+  transform: scale(1.15); }
+
 /* FIN LOGIN */
 /* DASHBOARD EXO */
 .exo-dash {
