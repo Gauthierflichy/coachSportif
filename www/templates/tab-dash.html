@@ -1,14 +1,35 @@
 <ion-view view-title="Dashboard">
+
+ <!-- <ion-content has-bouncing="true" class="padding">
+    <div class="dashboard">
+      <h2>Welcome to Ionic {{ name }}</h2>
+          <div class="card" ng-repeat="ex in myExercices">
+            <div class="item item-divider">
+              {{ ex.name }}
+            </div>
+
+            <div class="item item-text-wrap">
+              <div class="list">
+                <div class="item item-icon-right item-icon-left">
+                  <i class="icon ion-close" ng-click="deleteExo(ex)"></i>
+                  {{ ex.date | date: 'dd MMMM yyyy' }}
+                  <i class="icon ion-checkmark-round" ng-click="deleteExo(ex)"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+      <ion-floating-button click="new()" has-footer="false" button-color="#2AC9AA" icon="ion-plus" iconColor="#fff">
+      </ion-floating-button>
+    </div>
+  </ion-content>-->
+
     <ion-content>
 
         <!-- commence ta boucle ici -->
         <div class="col-100 exo-dash">
-
             <button class="add-exo" ui-sref="dash-new">
                 <p>+</p>
             </button>
-
-
             <h2 class="text-center">BICEPS</h2>
 
             <div class="row">
@@ -104,4 +125,5 @@
         </svg>
 
     </ion-content>
+>>>>>>> bc91419c0c1e34d012d051e61845e918f532cf43
 </ion-view>
