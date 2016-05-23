@@ -304,6 +304,31 @@ angular.module('starter.controllers', [])
             }
         });
     }
+})
+
+.controller('videosCtrl', function($scope, $http){
+    $scope.videos = [];
+
+    $scope.youtubeParams = {
+        key: 'AIzaSyDPqWEm9hP-GwzRAkVmbxi1cB7HYveEb4U',
+        type: 'video',
+        maxResults: '5',
+        part: 'id,snippet',
+        q: 'workout',
+        order: 'date',
+    }
+
+    $http.get('https://www.googleapis.com/youtube/v3/search', {params:$scope.youtubeParams}).success(function(response){
+        angular.forEach(response.items, function(child){
+            $scope.videos.push(child);
+        });
+    });
+
+    $scope.playerVars = {
+        rel: 0,
+        showinfo: 0,
+        modestbranding: 0,
+    }
 });
 
 

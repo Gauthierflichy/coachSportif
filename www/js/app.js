@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase', 'ngCordova', 'ion-floating-menu'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase', 'ngCordova', 'ion-floating-menu', 'youtube-embed'])
 
 .run(function($ionicPlatform, $state) {
   $ionicPlatform.ready(function() {
@@ -86,6 +86,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     url: '/new',
     templateUrl: 'templates/dash-new.html',
     controller: 'newCtrl'
+  })
+
+
+  .state('dash-videos', {
+    url: '/videos',
+    templateUrl: 'templates/dash-videos.html',
+    controller: 'videosCtrl'
   });
   
   // if none of the above states are matched, use this as the fallback

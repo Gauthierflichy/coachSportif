@@ -9736,6 +9736,25 @@ a.button {
 body {
   font-family: 'Roboto'; }
 
+.embed-responsive {
+  position: relative;
+  display: block;
+  height: 0;
+  padding: 0;
+  overflow: hidden; }
+
+.embed-responsive.embed-responsive-16by9 {
+  padding-bottom: 56.25%; }
+
+.embed-responsive-item {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0; }
+
 .exo-dash .add-exo {
   border-radius: 50%;
   position: fixed;
@@ -9851,18 +9870,15 @@ input:-webkit-autofill {
   display: none; }
 
 /* Load animation */
-@-webkit-keyframes
-load {
+@-webkit-keyframes load {
   0% {
     stroke-dashoffset: 0; } }
 
-@-moz-keyframes
-load {
+@-moz-keyframes load {
   0% {
     stroke-dashoffset: 0; } }
 
-@keyframes
-load {
+@keyframes load {
   0% {
     stroke-dashoffset: 0; } }
 
