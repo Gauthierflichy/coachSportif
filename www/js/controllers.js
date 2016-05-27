@@ -215,55 +215,102 @@ angular.module('starter.controllers', [])
     
 })
 
+.controller('tabCtrl', function($scope, $state) {
+    var ref = new Firebase("https://crackling-inferno-6605.firebaseio.com");
+    $scope.logout = function () {
+        ref.unauth();
+        $state.go('login');
+    };
+})
 
 .controller('loginCtrl', function($scope, $state){
 
     $scope.isSomethingLoading = false;
+    $scope.loginfb = function () {
+        /*var provider = new firebase.auth.FacebookAuthProvider();
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+            // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+            var token = result.credential.accessToken;
+            // The signed-in user info.
+            var user = result.user;
+            // ...
+        }).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+        });
+*/
+
+        var ref = new Firebase("https://crackling-inferno-6605.firebaseio.com");
+         ref.authWithOAuthPopup("facebook", function(error, authData) {
+         if (error) {
+         console.log("Authentication Failed!", error);
+         } else {
+         console.log("Authenticated successfully with payload:", authData);
+         $state.go('tab.dash');
+         }
+         });
+    };
 
     $scope.login = function(user) {
-        $scope.isSomethingLoading = true;
         var isNewUser = true;
         var ref = new Firebase("https://crackling-inferno-6605.firebaseio.com");
-        ref.authWithPassword({
-            email: user.email,
-            password: user.password
-        }, function (error, authData) {
-            if (error) {
-                switch (error.code) {
-                    case "INVALID_EMAIL":
-                        console.log("The specified user account email is invalid.");
-                        $scope.isSomethingLoading = false;
-                        break;
-                    case "INVALID_PASSWORD":
-                        console.log("The specified user account password is incorrect.");
-                        $scope.isSomethingLoading = false;
-                        break;
-                    case "INVALID_USER":
-                        console.log("The specified user account does not exist.");
-                        $scope.isSomethingLoading = false;
-                        break;
-                    default:
-                        console.log("Error logging user in:", error);
-                        $scope.isSomethingLoading = false;
-                }
-            } else {
-                console.log("Authenticated successfully with payload:", authData);
-                $scope.isSomethingLoading = false;
-                $state.go('tab.dash');
-            }
-        });
 
-        $scope.loginfb = function () {
-            var ref = new Firebase("https://crackling-inferno-6605.firebaseio.com");
-            ref.authWithOAuthPopup("facebook", function(error, authData) {
+        if (user === undefined) {
+            $scope.error = 'Veuillez renseigner tous les champs';
+            $state.go('login');
+        } else {
+            $scope.isSomethingLoading = true;
+
+            ref.authWithPassword({
+                email: user.email,
+                password: user.password
+
+            }, function testError(error, authData) {
+                console.log('ça passe ici');
                 if (error) {
-                    console.log("Authentication Failed!", error);
+                    switch (error.code) {
+                        case "INVALID_EMAIL":
+                            console.log("The specified user account email is invalid.");
+                            $scope.error = 'L\'email est incorrect';
+                            $scope.isSomethingLoading = false;
+                            $state.go('login');
+                            break;
+                        case "INVALID_PASSWORD":
+                            console.log("The specified user account password is incorrect.");
+                            $scope.error = 'Mot de passe incorrect';
+                            $scope.isSomethingLoading = false;
+                            $state.go('login');
+                            break;
+                        case "INVALID_USER":
+                            console.log("The specified user account does not exist.");
+                            $scope.error = 'Ce compte n\'existe pas';
+                            $scope.isSomethingLoading = false;
+                            $state.go('login');
+                            break;
+                        default:
+                            console.log("Error logging user in:", error);
+                            $scope.error = 'Veuillez réessayer';
+                            $scope.isSomethingLoading = false;
+                            $state.go('login');
+                    }
                 } else {
                     console.log("Authenticated successfully with payload:", authData);
+                    $scope.isSomethingLoading = false;
                     $state.go('tab.dash');
                 }
+
             });
-        };
+        }
+
+
+
+
 
         ref.onAuth(function(authData) {
             if (authData && isNewUser) {
@@ -315,7 +362,7 @@ angular.module('starter.controllers', [])
         maxResults: '5',
         part: 'id,snippet',
         q: 'workout',
-        order: 'date',
+        order: 'date'
     }
 
     $http.get('https://www.googleapis.com/youtube/v3/search', {params:$scope.youtubeParams}).success(function(response){
@@ -327,7 +374,7 @@ angular.module('starter.controllers', [])
     $scope.playerVars = {
         rel: 0,
         showinfo: 0,
-        modestbranding: 0,
+        modestbranding: 0
     }
 });
 

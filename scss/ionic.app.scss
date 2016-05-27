@@ -30,6 +30,16 @@ body {
   font-family: 'Roboto';
 }
 
+
+.error-infos {
+  background-color: #E23E32;
+  padding: 8px 10px 5px 10px;
+  text-align: center;
+  h2 {
+    color: white!important;
+  }
+}
+
 .embed-responsive {
   position: relative;
   display: block;
