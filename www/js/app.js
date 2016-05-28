@@ -87,6 +87,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     templateUrl: 'templates/dash-new.html',
     controller: 'newCtrl'
   })
+
+  .state('compte', {
+    url: '/compte',
+    templateUrl: 'templates/compte.html',
+    controller: 'CompteCtrl'
+  })
   .state('video', {
     url: '/video',
     templateUrl: 'templates/video.html',

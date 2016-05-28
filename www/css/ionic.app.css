@@ -9855,18 +9855,15 @@ input:-webkit-autofill {
   display: none; }
 
 /* Load animation */
-@-webkit-keyframes
-load {
+@-webkit-keyframes load {
   0% {
     stroke-dashoffset: 0; } }
 
-@-moz-keyframes
-load {
+@-moz-keyframes load {
   0% {
     stroke-dashoffset: 0; } }
 
-@keyframes
-load {
+@keyframes load {
   0% {
     stroke-dashoffset: 0; } }
 
@@ -9972,3 +9969,61 @@ load {
   .menu-top a {
     text-decoration: none;
     color: white; }
+
+/*COMPTE*/
+.compte-profil {
+  height: 30%;
+  background-color: indianred; }
+
+.profil h4 {
+  text-align: center;
+  color: white; }
+
+.profil p {
+  text-align: center;
+  color: white; }
+
+.compte-infos .compte-info {
+  margin-top: 5%;
+  text-align: center;
+  vertical-align: top;
+  display: inline-block;
+  padding-left: 10%; }
+  .compte-infos .compte-info h2 {
+    font-size: 1em;
+    color: black; }
+  .compte-infos .compte-info p {
+    font-size: 0.8em; }
+
+.compte-infos .bouton-modifier {
+  margin-top: 5%;
+  margin-left: 30%;
+  background-color: white;
+  height: 40px;
+  width: 140px;
+  border-radius: 40px;
+  border: solid 1px;
+  border-color: indianred; }
+  .compte-infos .bouton-modifier p {
+    color: indianred;
+    padding-top: 6%;
+    padding-left: 23%;
+    font-size: 1.4em; }
+
+.compte-infos hr {
+  width: 50%;
+  color: indianred;
+  border: solid 1px;
+  margin-top: 5%; }
+
+.compte-statistiques .compte-stat {
+  vertical-align: top;
+  margin-top: 5%;
+  text-align: center;
+  display: inline-block;
+  padding-left: 10%; }
+  .compte-statistiques .compte-stat h2 {
+    font-size: 1em;
+    color: black; }
+  .compte-statistiques .compte-stat p {
+    font-size: 0.8em; }
