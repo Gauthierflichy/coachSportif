@@ -68,7 +68,7 @@ angular.module('starter.controllers', [])
             }
         });
     }
-    
+
     //$scope.exercices = getExos();
     $scope.setExo = function (newExo) {
       /!**!/
@@ -219,5 +219,3 @@ angular.module('starter.controllers', [])
         })
     }
 });*/
-
-

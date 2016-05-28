@@ -1,173 +1,235 @@
 <ion-side-menus enable-menu-with-back-views="false">
-  <ion-nav-view>
-  </ion-nav-view>
+    <ion-nav-view>
+    </ion-nav-view>
 
-  <!--DEBUT DU MENU + MENU TOP -->
-  <ion-side-menu-content>
-    <ion-nav-bar class="bar-stable bar-positive">
+    <!--DEBUT DU MENU + MENU TOP -->
+    <ion-side-menu-content>
+        <ion-nav-bar class="bar-stable bar-positive">
 
-      <ion-nav-buttons side="left">
+            <ion-nav-buttons side="left">
 
-        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
-        </button>
+                <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+                </button>
 
-          <div class="menu-top bar">
-            <h1><a ui-sref="login">News</a></h1>
-            <h1><a ui-sref="login">Accueil</a></h1>
-            <h1><a ui-sref="login">Vidéos</a></h1>
+                <div class="menu-top bar">
+                    <h1><a ui-sref="login">News</a></h1>
+                    <h1><a ui-sref="login">Accueil</a></h1>
+                    <h1><a ui-sref="login">Vidéos</a></h1>
 
-          </div>
+                </div>
 
-      </ion-nav-buttons>
-    </ion-nav-bar>
-
-
+            </ion-nav-buttons>
+        </ion-nav-bar>
 
 
-    <!-- content dashboard -->
-    <ion-view>
-
-        <ion-content>
-
-          <!-- commence ta boucle For ici -->
-          <div class="col-100 exo-dash">
-
-            <button class="add-exo" ui-sref="dash-new">
-              <p>+</p>
-            </button>
-
-            <h2 class="text-center">BICEPS</h2>
-
-            <div class="row">
-
-              <div class="col-40 col-offset-10 cat-exo ">
-                <h3>Catégorie :</h3>
-                <h3>Équipement :</h3>
-                <h3>Description :</h3>
-              </div>
-
-              <div class="col-45 description-exo text-left">
-                <p>Bras</p>
-                <p>Haltères</p>
-                <p>fLorem ipsum dolor sit amet, consectetur adipisicing elit. Ab consectetur distinctio ducimus
-                  of.</p>
-              </div>
-            </div> <!--end row-->
-
-            <div class="row padding-top">
-
-              <div class="col-33 text-center nombre-repetition">
-                <h3>5 séries</h3>
-                <p>30</p>
-                <HR ALIGN="center" class="hr-exo" color="#ec8073">
-                <h4>REPÉTITIONS</h4>
-              </div>
-
-              <div class="col-33 text-center nombre-repetition">
-                <h3>2 semaines</h3>
-                <p>1 jour / 2</p>
-                <HR ALIGN="center" class="hr-exo" color="#ec8073">
-                <h4>RÉCURRENCE</h4>
-              </div>
+        <!-- <ion-content has-bouncing="true" class="padding">
+       <div class="dashboard">
+         <h2>Welcome to Ionic {{ name }}</h2>
+             <div class="card" ng-repeat="ex in myExercices">
+               <div class="item item-divider">
+                 {{ ex.name }}
+               </div>
+               <div class="item item-text-wrap">
+                 <div class="list">
+                   <div class="item item-icon-right item-icon-left">
+                     <i class="icon ion-close" ng-click="deleteExo(ex)"></i>
+                     {{ ex.date | date: 'dd MMMM yyyy' }}
+                     <i class="icon ion-checkmark-round" ng-click="deleteExo(ex)"></i>
+                   </div>
+                 </div>
+               </div>
+             </div>
+         <ion-floating-button click="new()" has-footer="false" button-color="#2AC9AA" icon="ion-plus" iconColor="#fff">
+         </ion-floating-button>
+       </div>
+     </ion-content>-->
 
 
+        <!-- content dashboard -->
+        <ion-view>
+            <div class="add-exo" click="new()" ui-sref="dash-new">
+                <p>+</p>
+            </div>
+            <ion-content>
 
 
-            </div> <!--end row nombre repetition -->
+                <!-- commence ta boucle ici -->
+                <div class="col-100 exo-dash card">
 
 
+                    <h2 class="text-center">BICEPS</h2>
 
-          </div> <!-- end col-100 -->
+                    <div class="row">
+
+                        <div class="col-40 col-offset-10 cat-exo ">
+                            <h3>Catégorie :</h3>
+                            <h3>Équipement :</h3>
+                            <h3>Description :</h3>
+                        </div>
+
+                        <div class="col-45 description-exo text-left">
+                            <p>Bras</p>
+                            <p>Haltères</p>
+                            <p>fLorem ipsum dolor sit amet, consectetur adipisicing elit. Ab consectetur distinctio
+                                ducimus
+                                of.</p>
+                        </div>
+                    </div> <!--end row-->
+
+                    <div class="row padding-top">
+
+                        <div class="col-50 text-center nombre-repetition">
+                            <h3>5 séries</h3>
+                            <p>30</p>
+                            <HR ALIGN="center" class="hr-exo" color="#ec8073">
+                            <h4>REPÉTITIONS</h4>
+                        </div>
+
+                        <div class="col-50 text-center nombre-repetition">
+                            <h3>2 semaines</h3>
+                            <p>1 jour / 2</p>
+                            <HR ALIGN="center" class="hr-exo" color="#ec8073">
+                            <h4>RÉCURRENCE</h4>
+                        </div>
 
 
+                    </div> <!--end row nombre repetition -->
+
+
+                </div> <!-- end col-100 -->
+
+                <div class="col-100 exo-dash card">
+
+
+                    <h2 class="text-center">BICEPS</h2>
+
+                    <div class="row">
+
+                        <div class="col-40 col-offset-10 cat-exo ">
+                            <h3>Catégorie :</h3>
+                            <h3>Équipement :</h3>
+                            <h3>Description :</h3>
+                        </div>
+
+                        <div class="col-45 description-exo text-left">
+                            <p>Bras</p>
+                            <p>Haltères</p>
+                            <p>fLorem ipsum dolor sit amet, consectetur adipisicing elit. Ab consectetur distinctio
+                                ducimus
+                                of.</p>
+                        </div>
+                    </div> <!--end row-->
+
+                    <div class="row padding-top">
+
+                        <div class="col-33 text-center nombre-repetition">
+                            <h3>5 séries</h3>
+                            <p>30</p>
+                            <HR ALIGN="center" class="hr-exo" color="#ec8073">
+                            <h4>REPÉTITIONS</h4>
+                        </div>
+
+                        <div class="col-33 text-center nombre-repetition">
+                            <h3>2 semaines</h3>
+                            <p>1 jour / 2</p>
+                            <HR ALIGN="center" class="hr-exo" color="#ec8073">
+                            <h4>RÉCURRENCE</h4>
+                        </div>
+
+
+                    </div> <!--end row nombre repetition -->
+
+
+                </div> <!-- end col-100 -->
+
+
+            </ion-content>
+
+
+        </ion-view>
+
+
+    </ion-side-menu-content>
+
+
+    <!--MENU LEFT-->
+    <ion-side-menu side="left">
+
+        <ion-content class="menu" ui-sref="compte">
+            <div class="profil-menu">
+                <div>
+                    <div class="icon-profil">
+                        <img src="../img/adam.jpg" alt="">
+                    </div>
+
+                    <h4>John Doe</h4>
+                    <p>Inscrit depuis le 08/09/17</p>
+                </div>
+            </div>
+            <ion-list>
+                <ion-item menu-close ui-sref="compte">
+
+
+                    <div class="liens-menu-single">
+                        <div class="row">
+                            <img src="../img/forum-user.png" alt=""> &nbsp; <h4>Profil</h4>
+                        </div>
+                    </div>
+
+                </ion-item>
+
+                <ion-item menu-close href="#/search">
+
+                    <div class="liens-menu-single">
+
+                        <div class="row">
+                            <img src="../img/weight-silhouette-for-medical-sport-practice.png" alt=""> &nbsp; <h4>Mes
+                            programmes</h4>
+                        </div>
+                    </div>
+
+                </ion-item>
+
+
+                <ion-item menu-close href="#/browse">
+
+                    <div class="liens-menu-single">
+                        <div class="row">
+                            <img src="../img/pie-chart.png" alt=""> &nbsp; <h4>PStatistiques</h4>
+                        </div>
+                    </div>
+
+                </ion-item>
+
+                <ion-item menu-close href="#/playlists">
+
+                    <div class="liens-menu-single">
+                        <div class="row">
+                            <img src="../img/bell.png" alt=""> &nbsp; <h4>Notifications</h4>
+                        </div>
+                    </div>
+
+                </ion-item>
+
+                <ion-item menu-close href="#/playlists">
+
+                    <div class="liens-menu-single">
+                        <h4>Infos légales</h4>
+                    </div>
+
+                </ion-item>
+
+                <ion-item menu-close href="#/playlists">
+
+                    <div class="liens-menu-single">
+                        <h4>Déconnexion</h4>
+                    </div>
+
+                </ion-item>
+
+            </ion-list>
         </ion-content>
 
 
-    </ion-view>
-
-
-
-
-  </ion-side-menu-content>
-
-
-  <!--MENU LEFT-->
-  <ion-side-menu side="left">
-
-    <ion-content class="menu" ui-sref="compte">
-      <div class="profil-menu">
-        <div>
-          <div class="icon-profil">
-            <img src="../img/adam.jpg" alt="">
-          </div>
-
-          <h4>John Doe</h4>
-          <p>Inscrit depuis le 08/09/17</p>
-        </div>
-      </div>
-      <ion-list>
-        <ion-item menu-close href="#/login">
-
-
-          <div class="liens-menu-single">
-            <div class="row">
-              <img src="../img/forum-user.png" alt=""> &nbsp; <h4>Profil ( dir login )</h4>
-            </div>
-          </div>
-
-        </ion-item>
-
-        <ion-item menu-close href="#/search">
-
-          <div class="liens-menu-single">
-
-            <div class="row">
-              <img src="../img/weight-silhouette-for-medical-sport-practice.png" alt=""> &nbsp; <h4>Mes programmes</h4>
-            </div>
-          </div>
-
-        </ion-item>
-
-
-        <ion-item menu-close href="#/browse">
-
-          <div class="liens-menu-single">
-            <div class="row">
-              <img src="../img/pie-chart.png" alt=""> &nbsp; <h4>PStatistiques</h4>
-            </div>
-          </div>
-
-        </ion-item>
-
-        <ion-item menu-close href="#/playlists">
-
-          <div class="liens-menu-single">
-            <div class="row">
-              <img src="../img/bell.png" alt=""> &nbsp; <h4>Notifications</h4>
-            </div>
-          </div>
-
-        </ion-item>
-
-        <ion-item menu-close href="#/playlists">
-
-          <div class="liens-menu-single">
-            <h4>Infos légales</h4>
-          </div>
-
-        </ion-item>
-
-        <ion-item menu-close href="#/playlists">
-
-          <div class="liens-menu-single">
-            <h4>Déconnexion</h4>
-          </div>
-
-        </ion-item>
-
-      </ion-list>
-    </ion-content>
-
-
-  </ion-side-menu>
+    </ion-side-menu>
 </ion-side-menus>

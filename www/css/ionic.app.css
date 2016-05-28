@@ -9736,20 +9736,22 @@ a.button {
 body {
   font-family: 'Roboto'; }
 
-.exo-dash .add-exo {
+/******* ADD EXERCICE DASHBOARD ********/
+.add-exo {
+  z-index: 1;
   border-radius: 50%;
   position: fixed;
-  bottom: 0px;
+  bottom: 0;
   right: 20px;
-  margin-bottom: 40px;
+  margin-bottom: 5%;
   width: 60px;
   height: 60px;
   border: none;
-  background-color: #ef473a;
-  display: none; }
-  .exo-dash .add-exo p {
+  background-color: indianred; }
+  .add-exo p {
+    padding-top: 25%;
+    padding-left: 15%;
     font-size: 75px;
-    margin-top: -33px;
     color: white; }
 
 .new-footer {
@@ -9832,7 +9834,7 @@ input:-webkit-autofill {
 .exo-dash {
   background-image: url("../img/maxresdefault.jpg");
   background-size: cover;
-  margin-top: 5px; }
+  margin-top: 10%; }
 
 .description-exo p {
   font-family: 'Lato';
@@ -9922,7 +9924,7 @@ input:-webkit-autofill {
   -o-animation: load 10s;
   animation: load 10s; }
 
-/* MENU */
+/******* MENU ********/
 /* MENU LEFT */
 .menu {
   background-color: #e8e8e8; }
@@ -9931,7 +9933,7 @@ input:-webkit-autofill {
 
 .profil-menu {
   height: 25%;
-  background-color: #e57273; }
+  background-color: indianred; }
   .profil-menu h4 {
     text-align: center;
     line-height: 10px; }
@@ -9997,7 +9999,7 @@ input:-webkit-autofill {
 
 .compte-infos .bouton-modifier {
   margin-top: 5%;
-  margin-left: 30%;
+  margin-left: 33%;
   background-color: white;
   height: 40px;
   width: 140px;
@@ -10021,9 +10023,9 @@ input:-webkit-autofill {
   margin-top: 5%;
   text-align: center;
   display: inline-block;
-  padding-left: 10%; }
+  padding-left: 5%; }
   .compte-statistiques .compte-stat h2 {
-    font-size: 1em;
-    color: black; }
+    font-size: 2em;
+    color: indianred; }
   .compte-statistiques .compte-stat p {
-    font-size: 0.8em; }
+    font-size: 1em; }
