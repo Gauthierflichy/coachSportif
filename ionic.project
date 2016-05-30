@@ -1,6 +1,6 @@
 {
   "name": "coachSportif",
-  "app_id": "d6b93df2",
+  "app_id": "96c61eca",
   "gulpStartupTasks": [
     "sass",
     "watch"

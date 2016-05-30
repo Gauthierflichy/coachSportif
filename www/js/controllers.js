@@ -200,6 +200,7 @@ angular.module('starter.controllers', [])
     ref.child("exercices/"+name).orderByChild("date").equalTo(date.toJSON()).on("value", function(snapshot) {
         //console.log(snapshot.val());
         $scope.myExercices = snapshot.val();
+        $scope.$apply();
     }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
     });
