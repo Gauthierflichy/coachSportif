@@ -25,7 +25,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   function authDataCallback(authData) {
     if (authData) {
       console.log("User " + authData.password.email.replace(/@.*/, '') + " is logged in with " + authData.provider);
-      $state.go('tab.dash');
+      $state.go('dashboard');
     } else {
       console.log("User is logged out");
       ref.unauth();
@@ -46,12 +46,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   $stateProvider
 
   // setup an abstract state for the tabs directive
-    .state('tab', {
+   /* .state('tab', {
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html',
     controller: 'tabCtrl'
-  })
+  })*/
     .state('login', {
       url: '/login',
       templateUrl: 'templates/login.html',
@@ -64,31 +64,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   })
 
   // Each tab has its own nav history stack:
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'accountCtrl'
-      }
-    }
+  .state('dashboard', {
+    url: '/dashboard',
+    templateUrl: 'templates/dashboard.html',
+    controller: 'dashCtrl'
   })
 
-  .state('tab.dash', {
-    url: '/dash',
-    views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'dashCtrl'
-      }
-    }
-  })
-  .state('dash-new', {
+  .state('new', {
     url: '/new',
-    templateUrl: 'templates/dash-new.html',
+    templateUrl: 'templates/new.html',
     controller: 'newCtrl'
   })
-
 
   .state('dash-videos', {
     url: '/videos',

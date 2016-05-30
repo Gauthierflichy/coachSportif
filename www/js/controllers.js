@@ -107,7 +107,7 @@ angular.module('starter.controllers', [])
         $scope.addExo = function (e) {
             //console.log(e);
             DBconnect.addExo(e, ref, $scope.name);
-            $state.go('tab.dash');
+            $state.go('dashboard');
         };
 
         /* Fin En */
@@ -181,7 +181,7 @@ angular.module('starter.controllers', [])
 */
 
 
-.controller('dashCtrl', function($scope, $state, DBconnect){
+.controller('dashCtrl', function($scope, $state, $ionicSideMenuDelegate, DBconnect){
     var ref = new Firebase("https://crackling-inferno-6605.firebaseio.com");
     var authData = ref.getAuth();
 
@@ -204,23 +204,28 @@ angular.module('starter.controllers', [])
         console.log("The read failed: " + errorObject.code);
     });
 
-    $scope.deleteExo = function (ex) {
+    $scope.validateExo = function (ex) {
+        DBconnect.validateExo(ex, ref, $scope.name)
+    };
+
+    /*$scope.deleteExo = function (ex) {
         DBconnect.deleteExo(ex, ref, $scope.name);
-    };
+    };*/
 
-    $scope.new = function () {
-      $state.go('dash-new');
-    };
-
-    
-})
-
-.controller('tabCtrl', function($scope, $state) {
-    var ref = new Firebase("https://crackling-inferno-6605.firebaseio.com");
     $scope.logout = function () {
         ref.unauth();
         $state.go('login');
     };
+
+    $scope.new = function () {
+      $state.go('new');
+    };
+
+    $scope.toggleLeft = function() {
+        $ionicSideMenuDelegate.toggleLeft();
+    };
+
+    
 })
 
 .controller('loginCtrl', function($scope, $state){
@@ -252,7 +257,7 @@ angular.module('starter.controllers', [])
          console.log("Authentication Failed!", error);
          } else {
          console.log("Authenticated successfully with payload:", authData);
-         $state.go('tab.dash');
+         $state.go('dashboard');
          }
          });
     };
@@ -272,7 +277,6 @@ angular.module('starter.controllers', [])
                 password: user.password
 
             }, function testError(error, authData) {
-                console.log('ça passe ici');
                 if (error) {
                     switch (error.code) {
                         case "INVALID_EMAIL":
@@ -302,7 +306,7 @@ angular.module('starter.controllers', [])
                 } else {
                     console.log("Authenticated successfully with payload:", authData);
                     $scope.isSomethingLoading = false;
-                    $state.go('tab.dash');
+                    $state.go('dashboard');
                 }
 
             });

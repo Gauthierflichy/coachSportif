@@ -52,7 +52,7 @@ angular.module('starter.services', [])
     },
     
 
-    deleteExo: function (ex, ref, name) {
+/*    deleteExo: function (ex, ref, name) {
       ref.child("exercices/"+ name+"/"+ex.id).remove();
 
 
@@ -60,6 +60,16 @@ angular.module('starter.services', [])
          var deletedPost = snapshot.val();
          console.log("The blog post titled '" + deletedPost + "' has been deleted");
        });
+    },*/
+
+    validateExo: function (ex, ref, name) {
+        ref.child("exercices/"+ name+"/"+ex.id).remove();
+
+
+        ref.child("exercices/"+ name).on("child_removed", function(snapshot) {
+            var deletedPost = snapshot.val();
+            console.log("Exo validé");
+        });
     },
 
     addExo : function (e, ref, name) {
@@ -80,10 +90,10 @@ angular.module('starter.services', [])
 
       console.log(exoID);
 
-      ref.child("exercices/"+ name).on("child_added", function(snapshot) {
+      /*ref.child("exercices/"+ name).on("child_added", function(snapshot) {
             var addedPost = snapshot.val().name;
             console.log("The blog post titled '" + addedPost + "' has been added");
-      });
+      });*/
     }
 
   };

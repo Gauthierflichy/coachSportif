@@ -77,14 +77,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     url: '/dash',
     views: {
       'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
+        templateUrl: 'templates/dashboard.html',
         controller: 'dashCtrl'
       }
     }
   })
   .state('dash-new', {
     url: '/new',
-    templateUrl: 'templates/dash-new.html',
+    templateUrl: 'templates/new.html',
     controller: 'newCtrl'
   });
   

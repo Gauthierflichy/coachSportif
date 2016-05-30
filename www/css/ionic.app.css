@@ -9789,7 +9789,7 @@ h3 {
 
 h2 {
   font-family: 'Roboto';
-  color: white;
+  color: black;
   font-size: 20px;
   font-weight: bold; }
 
@@ -9850,6 +9850,27 @@ input:-webkit-autofill {
     margin-left: 20px; }
 
 /* FIN LOGIN */
+/* STYLE DASHBOARD PROVISOIR */
+.dashboard {
+  padding-top: 60px; }
+
+.dash-stats {
+  width: 100%;
+  position: fixed;
+  z-index: 99;
+  margin: 40px 0px; }
+  .dash-stats h2 {
+    margin: 0;
+    text-align: center; }
+  .dash-stats h4 {
+    margin: 0;
+    padding-top: 20px;
+    text-align: center; }
+
+.dash-exos {
+  margin-top: 200px; }
+
+/* FIN STYLE DASHBOARD PROVISOIR */
 /* DASHBOARD EXO */
 .exo-dash {
   background-image: url("../img/maxresdefault.jpg");
